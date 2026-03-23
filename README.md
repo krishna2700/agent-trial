@@ -1,18 +1,25 @@
-# Ciao!
+# Hello!
 
-Benvenuto in questo progetto!
+Welcome to this project!
 
-## Descrizione
+## Description
 
-Questo è un semplice progetto di benvenuto.
+This is a simple interactive web project featuring a button that changes color when clicked.
 
-## Come Iniziare
+## Getting Started
 
-Apri il file `index.html` nel tuo browser per vedere il progetto in azione.
+Open the `index.html` file in your browser to see the project in action.
 
-## Contenuti
+## Contents
 
-- `index.html` - Pagina principale
-- `hello.js` - Script JavaScript
+- `index.html` - Main page with an interactive button that turns yellow on click
+- `hello.js` - JavaScript file that logs "Hello, World!" to the console
+- `hello-world.txt` - Simple text file containing "Hello, World!"
 
-Grazie per aver visitato questo progetto!
+## Features
+
+- Interactive button with hover effects
+- Color transition animation when clicked
+- Responsive centered layout
+
+Thank you for visiting this project!
