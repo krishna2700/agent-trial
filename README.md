@@ -1,18 +1,18 @@
-# Ciao!
+# Hello!
 
-Benvenuto in questo progetto!
+Welcome to this project!
 
-## Descrizione
+## Description
 
-Questo è un semplice progetto di benvenuto.
+This is a simple welcome project.
 
-## Come Iniziare
+## Getting Started
 
-Apri il file `index.html` nel tuo browser per vedere il progetto in azione.
+Open the `index.html` file in your browser to see the project in action.
 
-## Contenuti
+## Contents
 
-- `index.html` - Pagina principale
-- `hello.js` - Script JavaScript
+- `index.html` - Main page
+- `hello.js` - JavaScript script
 
-Grazie per aver visitato questo progetto!
+Thanks for visiting this project!
