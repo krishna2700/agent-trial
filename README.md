@@ -1,62 +1,62 @@
-# Projet Bouton Agent
+# Proyecto Botón Agente
 
-## Description
+## Descripción
 
-Ce projet est une application web simple qui affiche un bouton interactif. Lorsque vous cliquez sur le bouton, il change de couleur et devient rouge.
+Este proyecto es una aplicación web simple que muestra un botón interactivo. Cuando haces clic en el botón, cambia de color y se vuelve rojo.
 
-## Fonctionnalités
+## Características
 
-- Interface utilisateur centrée et responsive
-- Bouton interactif qui devient rouge au clic
-- Design moderne avec des transitions fluides
-- Script JavaScript simple pour la gestion des événements
+- Interfaz de usuario centrada y responsive
+- Botón interactivo que se vuelve rojo al hacer clic
+- Diseño moderno con transiciones suaves
+- Script JavaScript simple para la gestión de eventos
 
-## Structure du Projet
+## Estructura del Proyecto
 
 ```
 .
-├── index.html      # Page HTML principale avec le bouton
-├── hello.js        # Script JavaScript affichant "Hello, World!"
-└── README.md       # Ce fichier
+├── index.html      # Página HTML principal con el botón
+├── hello.js        # Script JavaScript que muestra "Hello, World!"
+└── README.md       # Este archivo
 ```
 
-## Installation
+## Instalación
 
-Aucune installation n'est nécessaire. Ce projet utilise uniquement du HTML, CSS et JavaScript vanilla.
+No se necesita ninguna instalación. Este proyecto utiliza únicamente HTML, CSS y JavaScript vanilla.
 
-## Utilisation
+## Uso
 
-1. Ouvrez le fichier `index.html` dans votre navigateur web préféré
-2. Cliquez sur le bouton "Click Me!"
-3. Observez le bouton devenir rouge
+1. Abre el archivo `index.html` en tu navegador web preferido
+2. Haz clic en el botón "Click Me!"
+3. Observa cómo el botón se vuelve rojo
 
-## Détails Techniques
+## Detalles Técnicos
 
-### Technologies Utilisées
+### Tecnologías Utilizadas
 
-- **HTML5** - Structure de la page
-- **CSS3** - Stylisation et animations
-- **JavaScript** - Interactivité
+- **HTML5** - Estructura de la página
+- **CSS3** - Estilización y animaciones
+- **JavaScript** - Interactividad
 
-### Caractéristiques CSS
+### Características CSS
 
-- Flexbox pour le centrage
-- Transitions CSS pour des animations fluides
-- Design responsive adapté à tous les écrans
-- Effet de survol (hover) pour une meilleure expérience utilisateur
+- Flexbox para el centrado
+- Transiciones CSS para animaciones suaves
+- Diseño responsive adaptado a todas las pantallas
+- Efecto de hover para una mejor experiencia de usuario
 
-## Développement
+## Desarrollo
 
-Pour modifier ce projet :
+Para modificar este proyecto:
 
-1. Clonez le dépôt Git
-2. Modifiez les fichiers selon vos besoins
-3. Ouvrez `index.html` dans votre navigateur pour tester les modifications
+1. Clona el repositorio Git
+2. Modifica los archivos según tus necesidades
+3. Abre `index.html` en tu navegador para probar las modificaciones
 
-## Licence
+## Licencia
 
-Ce projet est libre de droits.
+Este proyecto es de dominio público.
 
-## Auteur
+## Autor
 
-Créé avec l'aide de Claude Agent.
+Creado con la ayuda de Claude Agent.
