@@ -1,0 +1,1 @@
+- By default, shareable links should be public, not private.
