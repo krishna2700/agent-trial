@@ -1,56 +1,66 @@
-# Agent Trial
+# Proyecto Agent Trial
 
-## Descrição
+## Descripción
 
-Este projeto é um repositório de teste para demonstrar o funcionamento de agentes automatizados. Ele contém exemplos simples de código e serve como base para experimentações.
+Este proyecto es un repositorio de prueba para demostrar el funcionamiento de agentes automatizados. Contiene ejemplos simples de código y sirve como base para experimentos y aprendizaje.
 
-## Estrutura do Projeto
+## Estructura del Proyecto
 
 ```
 agent-trial/
-├── hello.js       # Arquivo JavaScript de exemplo com uma saudação simples
-└── README.md      # Documentação do projeto (este arquivo)
+├── hello.js       # Archivo JavaScript de ejemplo con un saludo simple
+├── index.html     # Página HTML de ejemplo
+└── README.md      # Documentación del proyecto (este archivo)
 ```
 
 ## Requisitos
 
-- [Node.js](https://nodejs.org/) (versão 14 ou superior)
+- [Node.js](https://nodejs.org/) (versión 14 o superior)
 
-## Como Usar
+Verifique si Node.js está instalado ejecutando:
 
-1. Clone este repositório:
-   ```bash
-   git clone https://github.com/krishna2700/agent-trial.git
-   ```
-
-2. Acesse o diretório do projeto:
-   ```bash
-   cd agent-trial
-   ```
-
-3. Execute o arquivo de exemplo:
-   ```bash
-   node hello.js
-   ```
-
-## Exemplo
-
-O arquivo `hello.js` exibe uma mensagem de saudação no terminal:
-
-```
-Olá, Mundo!
+```bash
+node --version
 ```
 
-## Contribuindo
+## Cómo Usar
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma _issue_ ou enviar um _pull request_.
+1. Clone este repositorio:
 
-1. Faça um _fork_ do projeto
-2. Crie uma nova _branch_: `git checkout -b minha-feature`
-3. Faça suas alterações e confirme: `git commit -m 'Adiciona minha feature'`
-4. Envie para o repositório remoto: `git push origin minha-feature`
-5. Abra um _pull request_
+```bash
+git clone https://github.com/krishna2700/agent-trial.git
+```
 
-## Licença
+2. Acceda al directorio del proyecto:
 
-Este projeto está licenciado sob a licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+```bash
+cd agent-trial
+```
+
+3. Ejecute el archivo de ejemplo:
+
+```bash
+node hello.js
+```
+
+## Ejemplo
+
+El archivo `hello.js` muestra un mensaje de saludo en la terminal:
+
+```
+¡Hola, Mundo!
+```
+
+## Contribuciones
+
+¡Las contribuciones son bienvenidas! No dude en abrir un _issue_ o enviar un _pull request_.
+
+1. Haga un _fork_ del proyecto
+2. Cree una nueva _branch_: `git checkout -b mi-nueva-funcionalidad`
+3. Realice sus cambios y confírmelos: `git commit -m 'Agrega nueva funcionalidad'`
+4. Envíe los cambios al repositorio remoto: `git push origin mi-nueva-funcionalidad`
+5. Abra un _pull request_
+
+## Licencia
+
+Este proyecto está licenciado bajo la licencia MIT. Consulte el archivo `LICENSE` para más detalles.
