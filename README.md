@@ -1,56 +1,84 @@
 # Agent Trial
 
-## Descrição
+## Descripción
 
-Este projeto é um repositório de teste para demonstrar o funcionamento de agentes automatizados. Ele contém exemplos simples de código e serve como base para experimentações.
+Este repositorio es un proyecto de prueba diseñado para explorar el funcionamiento de agentes automatizados. Contiene ejemplos sencillos de código JavaScript y sirve como punto de partida para experimentar con flujos de trabajo automatizados.
 
-## Estrutura do Projeto
+## Estructura del Proyecto
 
 ```
 agent-trial/
-├── hello.js       # Arquivo JavaScript de exemplo com uma saudação simples
-└── README.md      # Documentação do projeto (este arquivo)
+├── hello.js       # Script JavaScript de ejemplo que muestra un saludo en consola
+├── index.html     # Página HTML de ejemplo
+└── README.md      # Documentación del proyecto (este archivo)
 ```
 
-## Requisitos
+## Requisitos Previos
 
-- [Node.js](https://nodejs.org/) (versão 14 ou superior)
+Asegúrate de tener instalado lo siguiente antes de comenzar:
 
-## Como Usar
+- [Node.js](https://nodejs.org/) (versión 14 o superior)
+- npm (incluido con Node.js)
 
-1. Clone este repositório:
+## Instalación
+
+1. Clona este repositorio en tu máquina local:
    ```bash
    git clone https://github.com/krishna2700/agent-trial.git
    ```
 
-2. Acesse o diretório do projeto:
+2. Accede al directorio del proyecto:
    ```bash
    cd agent-trial
    ```
 
-3. Execute o arquivo de exemplo:
+## Uso
+
+Ejecuta el archivo de ejemplo con Node.js:
+
+```bash
+node hello.js
+```
+
+### Salida Esperada
+
+```
+¡Hola, Mundo!
+```
+
+## Características
+
+- Estructura de proyecto simple y fácil de entender
+- Código de ejemplo para aprender conceptos básicos de JavaScript
+- Ideal como plantilla base para nuevos proyectos
+
+## Cómo Contribuir
+
+¡Las contribuciones son bienvenidas! Sigue los pasos a continuación para colaborar:
+
+1. Haz un _fork_ de este repositorio
+2. Crea una nueva rama con tu funcionalidad:
    ```bash
-   node hello.js
+   git checkout -b feature/nueva-funcionalidad
    ```
+3. Realiza tus cambios y confirma los commits:
+   ```bash
+   git commit -m "Agrega nueva funcionalidad"
+   ```
+4. Sube los cambios a tu repositorio remoto:
+   ```bash
+   git push origin feature/nueva-funcionalidad
+   ```
+5. Abre un _Pull Request_ describiendo los cambios realizados
 
-## Exemplo
+## Reportar Problemas
 
-O arquivo `hello.js` exibe uma mensagem de saudação no terminal:
+Si encuentras algún error o tienes alguna sugerencia, por favor abre un [Issue](https://github.com/krishna2700/agent-trial/issues) en este repositorio.
 
-```
-Olá, Mundo!
-```
+## Licencia
 
-## Contribuindo
+Este proyecto está distribuido bajo la licencia MIT. Consulta el archivo `LICENSE` para obtener más información.
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma _issue_ ou enviar um _pull request_.
+---
 
-1. Faça um _fork_ do projeto
-2. Crie uma nova _branch_: `git checkout -b minha-feature`
-3. Faça suas alterações e confirme: `git commit -m 'Adiciona minha feature'`
-4. Envie para o repositório remoto: `git push origin minha-feature`
-5. Abra um _pull request_
-
-## Licença
-
-Este projeto está licenciado sob a licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+_Desarrollado como proyecto de prueba para agentes automatizados._
