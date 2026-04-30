@@ -512,6 +512,10 @@
     <div class="activity-icon active" title="Explorer" onclick="toggleSidebar()">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v2H5v14h14v-6h2v8H3V3zm11 0h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3z"/></svg>
     </div>
+    <!-- Agent Button -->
+    <div class="activity-icon" id="agentBtn" title="Agent" onclick="handleAgentClick()" style="cursor:pointer;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0 11c-5.33 0-8 2.67-8 4v1h16v-1c0-1.33-2.67-4-8-4z"/></svg>
+    </div>
     <!-- Search -->
     <div class="activity-icon" title="Search">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
@@ -1057,6 +1061,13 @@ function renderTerminal() {
     <div class="term-line"><span class="term-out">  ➜  Network: </span><span class="term-out">use --host to expose</span></div>
     <div class="term-line" style="margin-top:4px"><span class="term-prompt">~/agent-trial</span><span class="term-out"> on </span><span style="color:#d2a8ff"> main</span><span class="term-out"> ❯ </span><span class="term-cursor"></span></div>
   `;
+}
+
+function handleAgentClick() {
+  console.log('hellow');
+  const btn = document.getElementById('agentBtn');
+  btn.classList.add('active');
+  setTimeout(() => btn.classList.remove('active'), 300);
 }
 
 // Init
