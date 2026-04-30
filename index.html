@@ -520,6 +520,10 @@
     <div class="activity-icon" id="apiBtn" title="API" onclick="handleApiClick()" style="cursor:pointer;">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
     </div>
+    <!-- API v2 Button -->
+    <div class="activity-icon" id="apiBtnV2" title="API" onclick="handleApiV2Click()" style="cursor:pointer;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+    </div>
     <!-- Search -->
     <div class="activity-icon" title="Search">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
@@ -1070,6 +1074,13 @@ function renderTerminal() {
 function handleApiClick() {
   console.log('api');
   const btn = document.getElementById('apiBtn');
+  btn.classList.add('active');
+  setTimeout(() => btn.classList.remove('active'), 600);
+}
+
+function handleApiV2Click() {
+  console.log('api');
+  const btn = document.getElementById('apiBtnV2');
   btn.classList.add('active');
   setTimeout(() => btn.classList.remove('active'), 600);
 }
