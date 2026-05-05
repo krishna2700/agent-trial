@@ -13,18 +13,22 @@
       --surface: #1a1d27;
       --surface2: #22263a;
       --border: #2e3248;
-      --accent: #6c63ff;
-      --accent-soft: rgba(108,99,255,0.15);
+      --accent: #6366f1;
+      --accent-hover: #4f52d4;
+      --accent-light: rgba(99,102,241,0.12);
       --green: #22c55e;
-      --green-soft: rgba(34,197,94,0.12);
+      --green-light: rgba(34,197,94,0.12);
       --yellow: #f59e0b;
-      --yellow-soft: rgba(245,158,11,0.12);
+      --yellow-light: rgba(245,158,11,0.12);
       --red: #ef4444;
-      --red-soft: rgba(239,68,68,0.12);
-      --blue: #3b82f6;
-      --blue-soft: rgba(59,130,246,0.12);
+      --red-light: rgba(239,68,68,0.12);
+      --blue: #38bdf8;
+      --blue-light: rgba(56,189,248,0.12);
+      --purple: #a855f7;
+      --purple-light: rgba(168,85,247,0.12);
       --text: #e2e8f0;
-      --text-muted: #94a3b8;
+      --text2: #94a3b8;
+      --text3: #64748b;
       --radius: 12px;
       --shadow: 0 4px 24px rgba(0,0,0,0.4);
     }
@@ -34,933 +38,1170 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* ── TOP NAV ── */
-    nav {
+    /* ── HEADER ── */
+    header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 0 32px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 60px;
       position: sticky;
       top: 0;
       z-index: 100;
+      backdrop-filter: blur(12px);
     }
-    .nav-left { display: flex; align-items: center; gap: 14px; }
     .logo {
-      display: flex; align-items: center; gap: 8px;
-      font-weight: 800; font-size: 18px; letter-spacing: -0.5px; color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.5px;
     }
     .logo-icon {
-      width: 32px; height: 32px; background: var(--accent);
-      border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
+      width: 34px;
+      height: 34px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
     .sprint-badge {
-      background: var(--accent-soft); color: var(--accent);
-      border: 1px solid rgba(108,99,255,0.3);
-      padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
     }
-    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .avatar-group { display: flex; align-items: center; }
     .avatar {
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700; color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--surface);
+      margin-left: -8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
-    .btn-new {
-      background: var(--accent); color: #fff; border: none;
-      padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
-      cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
-    }
-    .btn-new:hover { background: #7c75ff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(108,99,255,0.4); }
+    .avatar:first-child { margin-left: 0; }
+    .avatar:hover { transform: translateY(-3px); z-index: 10; }
 
-    /* ── SPRINT HEADER ── */
-    .sprint-header {
-      padding: 28px 32px 0;
-      display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    /* ── SPRINT BANNER ── */
+    .sprint-banner {
+      background: linear-gradient(135deg, #1e1b4b 0%, #1a1d27 60%, #0f1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 32px;
     }
-    .sprint-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-    .sprint-dates { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
-    .sprint-stats {
-      display: flex; gap: 16px; flex-wrap: wrap;
+    .sprint-meta {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
     }
-    .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 14px 20px; text-align: center; min-width: 90px;
+    .sprint-title-row h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
     }
-    .stat-num { font-size: 24px; font-weight: 800; }
-    .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-
-    /* ── PROGRESS BAR ── */
-    .progress-section { padding: 20px 32px 0; }
-    .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-    .progress-label { font-size: 13px; font-weight: 600; }
-    .progress-pct { font-size: 13px; color: var(--accent); font-weight: 700; }
+    .sprint-subtitle {
+      color: var(--text2);
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text3); }
+    .progress-panel {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .stat-box {
+      text-align: center;
+    }
+    .stat-box .val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .stat-box .lbl {
+      font-size: 0.72rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-top: 3px;
+    }
+    .progress-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 180px;
+    }
+    .progress-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text2);
+    }
     .progress-bar {
-      height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden;
+      height: 8px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
     }
     .progress-fill {
-      height: 100%; background: linear-gradient(90deg, var(--accent), #a78bfa);
-      border-radius: 99px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--purple));
+      border-radius: 99px;
+      transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
     }
 
-    /* ── FILTERS ── */
-    .filters {
-      padding: 20px 32px 0;
-      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    /* ── CONTROLS ── */
+    .controls {
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
     }
-    .filter-btn {
-      padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
-      border: 1px solid var(--border); background: transparent; color: var(--text-muted);
-      cursor: pointer; transition: all 0.18s;
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 4px;
     }
-    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .filter-btn.active { background: var(--accent-soft); border-color: rgba(108,99,255,0.4); color: var(--accent); }
-    .search-wrap { margin-left: auto; position: relative; }
-    .search-wrap input {
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--text); padding: 7px 14px 7px 36px; border-radius: 8px;
-      font-size: 13px; font-family: inherit; outline: none; width: 220px; transition: border 0.2s;
+    .filter-tab {
+      padding: 6px 14px;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: inherit;
     }
-    .search-wrap input:focus { border-color: var(--accent); }
-    .search-icon {
-      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-      color: var(--text-muted); font-size: 14px; pointer-events: none;
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--accent);
+      color: #fff;
     }
+    .controls-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .search-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 14px;
+      color: var(--text);
+      font-size: 0.84rem;
+      font-family: inherit;
+      width: 220px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus { border-color: var(--accent); }
+    .search-box::placeholder { color: var(--text3); }
+    .btn-add {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 7px 16px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-add:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(99,102,241,0.4); }
 
     /* ── BOARD ── */
     .board {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      padding: 20px 32px 40px;
+      gap: 0;
+      padding: 0;
+      min-height: calc(100vh - 200px);
+      border-top: none;
     }
-    @media (max-width: 1100px) { .board { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 640px) { .board { grid-template-columns: 1fr; } }
-
-    .column { display: flex; flex-direction: column; gap: 0; }
+    .column {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .column:last-child { border-right: none; }
     .col-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 4px 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 64px;
+      background: var(--bg);
+      z-index: 10;
     }
-    .col-title-wrap { display: flex; align-items: center; gap: 8px; }
-    .col-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .col-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+    .col-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .col-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
     .col-count {
-      background: var(--surface2); color: var(--text-muted);
-      padding: 2px 7px; border-radius: 20px; font-size: 11px; font-weight: 600;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text2);
+    }
+    .cards-list {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
     }
 
-    .cards-list { display: flex; flex-direction: column; gap: 10px; }
-
-    /* ── TASK CARD ── */
+    /* ── CARD ── */
     .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 16px;
-      cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
     }
     .card::before {
-      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      border-radius: 3px 0 0 3px;
     }
-    .card.priority-critical::before { background: var(--red); }
-    .card.priority-high::before { background: var(--yellow); }
-    .card.priority-medium::before { background: var(--accent); }
-    .card.priority-low::before { background: var(--green); }
-    .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
-
-    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-    .card-id { font-size: 10px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; }
-    .priority-badge {
-      font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
-      text-transform: uppercase; letter-spacing: 0.3px;
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
     }
-    .priority-badge.critical { background: var(--red-soft); color: var(--red); }
-    .priority-badge.high { background: var(--yellow-soft); color: var(--yellow); }
-    .priority-badge.medium { background: var(--accent-soft); color: var(--accent); }
-    .priority-badge.low { background: var(--green-soft); color: var(--green); }
-
-    .card-title { font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 10px; }
-    .card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px; }
-
-    .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
     .tag {
-      font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
-      background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
     }
+    .card-priority {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--text2);
+      line-height: 1.5;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-id {
+      font-size: 0.72rem;
+      color: var(--text3);
+      font-weight: 500;
+    }
+    .card-points {
+      font-size: 0.72rem;
+      color: var(--text2);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-weight: 600;
+    }
+    .card-assignee {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--bg);
+    }
+    .card-due {
+      font-size: 0.72rem;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-due.overdue { color: var(--red); }
+    .card-due.soon { color: var(--yellow); }
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .subtask-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--text2);
+    }
+    .subtask-check {
+      width: 13px;
+      height: 13px;
+      border-radius: 3px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+    .subtask-check:checked + span { text-decoration: line-through; color: var(--text3); }
 
-    .card-footer { display: flex; align-items: center; justify-content: space-between; }
-    .card-meta { display: flex; align-items: center; gap: 8px; }
-    .story-pts {
-      display: flex; align-items: center; gap: 4px;
-      font-size: 11px; color: var(--text-muted); font-weight: 600;
-    }
-    .due-date {
-      font-size: 11px; color: var(--text-muted);
-    }
-    .due-date.overdue { color: var(--red); }
-    .card-assignees { display: flex; gap: -4px; }
-    .card-assignees .avatar { width: 24px; height: 24px; font-size: 9px; margin-left: -4px; border: 2px solid var(--surface); }
+    /* Priority colors */
+    .priority-critical { color: var(--red); }
+    .priority-high { color: var(--yellow); }
+    .priority-medium { color: var(--blue); }
+    .priority-low { color: var(--green); }
 
-    /* ── MODAL ── */
+    /* Tag colors */
+    .tag-frontend { background: var(--blue-light); color: var(--blue); }
+    .tag-backend { background: var(--purple-light); color: var(--purple); }
+    .tag-design { background: var(--accent-light); color: var(--accent); }
+    .tag-qa { background: var(--green-light); color: var(--green); }
+    .tag-devops { background: var(--yellow-light); color: var(--yellow); }
+    .tag-bug { background: var(--red-light); color: var(--red); }
+
+    /* Card accent borders */
+    .card.p-critical::before { background: var(--red); }
+    .card.p-high::before { background: var(--yellow); }
+    .card.p-medium::before { background: var(--blue); }
+    .card.p-low::before { background: var(--green); }
+
+    /* Column colors */
+    .col-todo .col-indicator { background: var(--text3); }
+    .col-progress .col-indicator { background: var(--accent); }
+    .col-review .col-indicator { background: var(--yellow); }
+    .col-done .col-indicator { background: var(--green); }
+
+    /* MODAL */
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px);
-      z-index: 200; display: none; align-items: center; justify-content: center;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
     }
     .modal-overlay.open { display: flex; }
     .modal {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; width: 100%; max-width: 560px; max-height: 90vh;
-      overflow-y: auto; box-shadow: 0 24px 64px rgba(0,0,0,0.6);
-      animation: slideUp 0.22s ease;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 560px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      animation: slideUp 0.22s cubic-bezier(0.4,0,0.2,1);
     }
-    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .modal-header {
-      padding: 24px 24px 16px;
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      padding: 20px 24px 16px;
       border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
     }
-    .modal-title { font-size: 18px; font-weight: 700; line-height: 1.3; }
+    .modal-title { font-size: 1.1rem; font-weight: 700; line-height: 1.4; }
     .modal-close {
-      background: var(--surface2); border: none; color: var(--text-muted);
-      width: 30px; height: 30px; border-radius: 8px; font-size: 16px;
-      cursor: pointer; flex-shrink: 0; transition: all 0.15s;
+      background: none;
+      border: none;
+      color: var(--text3);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 2px;
+      line-height: 1;
+      transition: color 0.18s;
+      flex-shrink: 0;
     }
-    .modal-close:hover { background: var(--border); color: var(--text); }
-    .modal-body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px; }
-    .meta-row { display: flex; gap: 24px; flex-wrap: wrap; }
-    .meta-item { display: flex; flex-direction: column; gap: 4px; }
-    .meta-key { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-    .meta-val { font-size: 13px; font-weight: 600; }
-    .modal-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-    .section-label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-    .checklist { display: flex; flex-direction: column; gap: 6px; }
-    .check-item {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 13px; padding: 8px 10px; border-radius: 8px;
-      cursor: pointer; transition: background 0.15s;
+    .modal-close:hover { color: var(--text); }
+    .modal-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 18px; }
+    .modal-row {
+      display: flex;
+      gap: 16px;
     }
-    .check-item:hover { background: var(--surface2); }
-    .check-item input[type=checkbox] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
-    .check-item.done span { text-decoration: line-through; color: var(--text-muted); }
-    .activity { display: flex; flex-direction: column; gap: 10px; }
-    .activity-item { display: flex; gap: 10px; align-items: flex-start; }
-    .activity-item .avatar { width: 26px; height: 26px; font-size: 9px; flex-shrink: 0; }
-    .activity-text { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
-    .activity-text strong { color: var(--text); }
-    .activity-time { font-size: 10px; color: var(--text-muted); }
+    .modal-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+    .modal-field label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .modal-field-val {
+      font-size: 0.88rem;
+      color: var(--text);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 8px 12px;
+    }
+    .modal-desc {
+      font-size: 0.88rem;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+    .modal-subtasks { display: flex; flex-direction: column; gap: 8px; }
+    .modal-subtask {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      background: var(--surface2);
+      border-radius: 7px;
+      border: 1px solid var(--border);
+    }
+    .modal-subtask input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; }
+    .modal-subtask span { flex: 1; }
+    .modal-subtask input:checked + span { text-decoration: line-through; color: var(--text3); }
+    .modal-comments { display: flex; flex-direction: column; gap: 10px; }
+    .comment {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .comment-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .comment-bubble {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      flex: 1;
+    }
+    .comment-author {
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .comment-text {
+      font-size: 0.82rem;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .comment-time {
+      font-size: 0.7rem;
+      color: var(--text3);
+      margin-top: 4px;
+    }
 
-    /* ── ADD TASK MODAL ── */
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-    .form-input, .form-select, .form-textarea {
-      background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text); padding: 10px 12px; border-radius: 8px;
-      font-size: 13px; font-family: inherit; outline: none; transition: border 0.2s;
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
-    .form-textarea { resize: vertical; min-height: 80px; }
-    .form-select option { background: var(--surface2); }
-    .form-row { display: flex; gap: 12px; }
-    .form-row .form-group { flex: 1; }
-    .btn-submit {
-      background: var(--accent); color: #fff; border: none;
-      padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 600;
-      cursor: pointer; transition: all 0.2s; width: 100%;
-    }
-    .btn-submit:hover { background: #7c75ff; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(108,99,255,0.4); }
-
-    /* ── STATUS CHIPS in modal ── */
-    .status-chip {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
-    }
-    .status-chip.todo { background: rgba(148,163,184,0.12); color: #94a3b8; }
-    .status-chip.in-progress { background: var(--blue-soft); color: var(--blue); }
-    .status-chip.review { background: var(--yellow-soft); color: var(--yellow); }
-    .status-chip.done { background: var(--green-soft); color: var(--green); }
-
-    /* ── EMPTY STATE ── */
-    .empty-col {
-      background: var(--surface); border: 1px dashed var(--border);
-      border-radius: var(--radius); padding: 24px 16px; text-align: center;
-      color: var(--text-muted); font-size: 12px;
+    /* SECTION LABEL */
+    .modal-section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text3);
+      margin-bottom: -4px;
     }
 
-    /* ── TOAST ── */
-    .toast {
-      position: fixed; bottom: 24px; right: 24px; z-index: 300;
-      background: var(--green); color: #fff; padding: 12px 20px;
-      border-radius: 10px; font-size: 13px; font-weight: 600;
-      box-shadow: 0 8px 24px rgba(34,197,94,0.35);
-      transform: translateY(80px); opacity: 0; transition: all 0.3s;
+    /* DONE column cards visual */
+    .col-done .card { opacity: 0.75; }
+    .col-done .card:hover { opacity: 1; }
+    .card-done-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      background: var(--green);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.65rem;
+      color: #fff;
     }
-    .toast.show { transform: translateY(0); opacity: 1; }
 
-    /* scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .board { grid-template-columns: repeat(2, 1fr); }
+      .progress-panel { flex-wrap: wrap; }
+    }
+    @media (max-width: 580px) {
+      .board { grid-template-columns: 1fr; }
+      header { padding: 0 16px; }
+      .sprint-banner, .controls { padding: 16px; }
+      .cards-list { padding: 10px; }
+    }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-left">
-    <div class="logo">
-      <div class="logo-icon">📋</div>
-      SprintBoard
-    </div>
-    <div class="sprint-badge">Sprint 12</div>
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <span>Acme Corp <span style="color:var(--text3);font-weight:400;">/ SprintBoard</span></span>
   </div>
-  <div class="nav-right">
-    <button class="btn-new" onclick="openAddModal()">+ New Task</button>
-    <div class="avatar" style="background:#6c63ff" title="Alex Morgan">AM</div>
-    <div class="avatar" style="background:#22c55e" title="Jordan Lee">JL</div>
-    <div class="avatar" style="background:#f59e0b" title="Sam Rivera">SR</div>
+  <div class="header-right">
+    <span class="sprint-badge">Sprint 14 — Active</span>
+    <div class="avatar-group" id="team-avatars"></div>
   </div>
-</nav>
+</header>
 
-<!-- SPRINT HEADER -->
-<div class="sprint-header">
-  <div>
-    <div class="sprint-title">Sprint 12 — Platform Reboot</div>
-    <div class="sprint-dates">Apr 28, 2026 → May 11, 2026 &nbsp;·&nbsp; Acme Corp Engineering</div>
-  </div>
-  <div class="sprint-stats">
-    <div class="stat-card">
-      <div class="stat-num" id="stat-total">16</div>
-      <div class="stat-label">Total</div>
+<!-- SPRINT BANNER -->
+<div class="sprint-banner">
+  <div class="sprint-meta">
+    <div class="sprint-title-row">
+      <h1>Q2 Platform Upgrade</h1>
+      <div class="sprint-subtitle">
+        <span>May 1 – May 14, 2026</span>
+        <div class="dot"></div>
+        <span>9 days remaining</span>
+        <div class="dot"></div>
+        <span id="sprint-team-count">6 engineers</span>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--green)" id="stat-done">5</div>
-      <div class="stat-label">Done</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--blue)" id="stat-progress">4</div>
-      <div class="stat-label">In Progress</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--yellow)" id="stat-pts">47</div>
-      <div class="stat-label">Story Pts</div>
+    <div class="progress-panel">
+      <div class="stat-box">
+        <div class="val" style="color:var(--green)" id="done-count">0</div>
+        <div class="lbl">Done</div>
+      </div>
+      <div class="stat-box">
+        <div class="val" style="color:var(--accent)" id="inprogress-count">0</div>
+        <div class="lbl">In Progress</div>
+      </div>
+      <div class="stat-box">
+        <div class="val" style="color:var(--text2)" id="todo-count">0</div>
+        <div class="lbl">To Do</div>
+      </div>
+      <div class="stat-box">
+        <div class="val" id="total-points">0</div>
+        <div class="lbl">Story Points</div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-label">
+          <span>Sprint Progress</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- PROGRESS -->
-<div class="progress-section">
-  <div class="progress-header">
-    <span class="progress-label">Sprint Progress</span>
-    <span class="progress-pct" id="progress-pct">31%</span>
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="all" onclick="setFilter('all',this)">All</button>
+    <button class="filter-tab" data-filter="frontend" onclick="setFilter('frontend',this)">Frontend</button>
+    <button class="filter-tab" data-filter="backend" onclick="setFilter('backend',this)">Backend</button>
+    <button class="filter-tab" data-filter="design" onclick="setFilter('design',this)">Design</button>
+    <button class="filter-tab" data-filter="qa" onclick="setFilter('qa',this)">QA</button>
+    <button class="filter-tab" data-filter="devops" onclick="setFilter('devops',this)">DevOps</button>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progress-fill" style="width:31%"></div>
-  </div>
-</div>
-
-<!-- FILTERS -->
-<div class="filters">
-  <button class="filter-btn active" data-filter="all" onclick="applyFilter(this,'all')">All</button>
-  <button class="filter-btn" data-filter="critical" onclick="applyFilter(this,'critical')">🔴 Critical</button>
-  <button class="filter-btn" data-filter="high" onclick="applyFilter(this,'high')">🟡 High</button>
-  <button class="filter-btn" data-filter="medium" onclick="applyFilter(this,'medium')">🟣 Medium</button>
-  <button class="filter-btn" data-filter="low" onclick="applyFilter(this,'low')">🟢 Low</button>
-  <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input type="text" placeholder="Search tasks…" id="searchInput" oninput="applySearch()" />
+  <div class="controls-right">
+    <input class="search-box" type="text" placeholder="🔍  Search tasks…" oninput="searchTasks(this.value)" />
+    <button class="btn-add" onclick="alert('Add Task feature — connect to your API!')">＋ Add Task</button>
   </div>
 </div>
 
 <!-- BOARD -->
-<div class="board" id="board">
-  <!-- Rendered by JS -->
-</div>
-
-<!-- ── TASK DETAIL MODAL ── -->
-<div class="modal-overlay" id="detailOverlay" onclick="closeIfOverlay(event,'detailOverlay')">
-  <div class="modal" id="detailModal">
-    <div class="modal-header">
-      <div>
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px" id="d-id"></div>
-        <div class="modal-title" id="d-title"></div>
-      </div>
-      <button class="modal-close" onclick="closeModal('detailOverlay')">✕</button>
+<div class="board">
+  <div class="column col-todo" id="col-todo">
+    <div class="col-header">
+      <div class="col-title"><div class="col-indicator"></div> To Do</div>
+      <div class="col-count" id="cnt-todo">0</div>
     </div>
-    <div class="modal-body">
-      <div class="meta-row" id="d-meta"></div>
-      <div>
-        <div class="section-label">Description</div>
-        <div class="modal-desc" id="d-desc"></div>
-      </div>
-      <div>
-        <div class="section-label">Checklist</div>
-        <div class="checklist" id="d-checklist"></div>
-      </div>
-      <div>
-        <div class="section-label">Activity</div>
-        <div class="activity" id="d-activity"></div>
-      </div>
+    <div class="cards-list" id="list-todo"></div>
+  </div>
+  <div class="column col-progress" id="col-progress">
+    <div class="col-header">
+      <div class="col-title"><div class="col-indicator"></div> In Progress</div>
+      <div class="col-count" id="cnt-progress">0</div>
     </div>
+    <div class="cards-list" id="list-progress"></div>
+  </div>
+  <div class="column col-review" id="col-review">
+    <div class="col-header">
+      <div class="col-title"><div class="col-indicator"></div> In Review</div>
+      <div class="col-count" id="cnt-review">0</div>
+    </div>
+    <div class="cards-list" id="list-review"></div>
+  </div>
+  <div class="column col-done" id="col-done">
+    <div class="col-header">
+      <div class="col-title"><div class="col-indicator"></div> Done</div>
+      <div class="col-count" id="cnt-done">0</div>
+    </div>
+    <div class="cards-list" id="list-done"></div>
   </div>
 </div>
 
-<!-- ── ADD TASK MODAL ── -->
-<div class="modal-overlay" id="addOverlay" onclick="closeIfOverlay(event,'addOverlay')">
-  <div class="modal">
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
     <div class="modal-header">
-      <div class="modal-title">New Task</div>
-      <button class="modal-close" onclick="closeModal('addOverlay')">✕</button>
+      <div>
+        <div id="m-id" style="font-size:0.75rem;color:var(--text3);margin-bottom:5px;"></div>
+        <div class="modal-title" id="m-title"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
     </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label class="form-label">Title</label>
-        <input class="form-input" id="f-title" type="text" placeholder="What needs to be done?" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Description</label>
-        <textarea class="form-textarea" id="f-desc" placeholder="Add more context…"></textarea>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Priority</label>
-          <select class="form-select" id="f-priority">
-            <option value="critical">Critical</option>
-            <option value="high">High</option>
-            <option value="medium" selected>Medium</option>
-            <option value="low">Low</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Column</label>
-          <select class="form-select" id="f-status">
-            <option value="todo">To Do</option>
-            <option value="in-progress">In Progress</option>
-            <option value="review">In Review</option>
-            <option value="done">Done</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Story Points</label>
-          <input class="form-input" id="f-pts" type="number" min="1" max="21" value="3" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Assignee</label>
-          <select class="form-select" id="f-assignee">
-            <option value="AM">Alex Morgan</option>
-            <option value="JL">Jordan Lee</option>
-            <option value="SR">Sam Rivera</option>
-            <option value="KP">Kim Park</option>
-            <option value="DC">Dan Chen</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Tags (comma separated)</label>
-        <input class="form-input" id="f-tags" type="text" placeholder="e.g. frontend, api, bug" />
-      </div>
-      <button class="btn-submit" onclick="addTask()">Create Task</button>
-    </div>
+    <div class="modal-body" id="m-body"></div>
   </div>
 </div>
-
-<!-- TOAST -->
-<div class="toast" id="toast">Task created!</div>
 
 <script>
-/* ─── STATIC DATA ─── */
-const ASSIGNEE_COLORS = { AM:'#6c63ff', JL:'#22c55e', SR:'#f59e0b', KP:'#3b82f6', DC:'#ef4444', NA:'#94a3b8' };
+/* ─── DATA ─── */
+const team = [
+  { id:'AK', name:'Aisha Kim',    color:'#6366f1', bg:'rgba(99,102,241,0.2)',  role:'Frontend Lead' },
+  { id:'MR', name:'Marco Ruiz',   color:'#22c55e', bg:'rgba(34,197,94,0.2)',   role:'Backend Dev' },
+  { id:'SL', name:'Sara Lin',     color:'#f59e0b', bg:'rgba(245,158,11,0.2)',  role:'Designer' },
+  { id:'DT', name:'Dev Tran',     color:'#38bdf8', bg:'rgba(56,189,248,0.2)',  role:'Full Stack' },
+  { id:'PC', name:'Priya Chen',   color:'#a855f7', bg:'rgba(168,85,247,0.2)', role:'QA Engineer' },
+  { id:'JH', name:'Jake Hart',    color:'#ef4444', bg:'rgba(239,68,68,0.2)',  role:'DevOps' },
+];
 
-let tasks = [
-  {
-    id:'ACM-101', title:'Redesign user authentication flow', status:'done',
-    priority:'critical', pts:8, due:'May 3', assignees:['AM','JL'],
-    tags:['frontend','auth','security'],
-    desc:'Overhaul the login and registration pages to align with the new design system. Add OAuth support for Google and GitHub. Ensure WCAG 2.1 AA compliance throughout.',
-    checklist:[
-      {text:'Design mockups approved', done:true},
-      {text:'OAuth Google integration', done:true},
-      {text:'OAuth GitHub integration', done:true},
-      {text:'Accessibility audit pass', done:true},
-      {text:'Unit tests written', done:true},
-    ],
-    activity:[
-      {who:'AM',color:'#6c63ff',text:'<strong>Alex Morgan</strong> marked this task as done.',time:'2h ago'},
-      {who:'JL',color:'#22c55e',text:'<strong>Jordan Lee</strong> completed OAuth GitHub integration.',time:'5h ago'},
-    ]
-  },
-  {
-    id:'ACM-102', title:'API rate-limiting middleware', status:'done',
-    priority:'critical', pts:5, due:'May 2', assignees:['DC'],
-    tags:['backend','api','security'],
-    desc:'Implement token-bucket rate limiting on all public API endpoints. Expose rate-limit headers (X-RateLimit-Limit, X-RateLimit-Remaining, Retry-After) per RFC 6585.',
-    checklist:[
-      {text:'Token-bucket algorithm implemented', done:true},
-      {text:'Redis integration for distributed limits', done:true},
-      {text:'Headers added to all responses', done:true},
-      {text:'Load test passed (10k RPS)', done:true},
-    ],
-    activity:[
-      {who:'DC',color:'#ef4444',text:'<strong>Dan Chen</strong> completed load testing at 10k RPS.',time:'1d ago'},
-    ]
-  },
-  {
-    id:'ACM-103', title:'Dashboard analytics charts', status:'done',
-    priority:'high', pts:5, due:'May 4', assignees:['SR','KP'],
-    tags:['frontend','analytics'],
-    desc:'Build interactive revenue, DAU, and retention charts on the main dashboard using Chart.js. Data must be fetched from /api/v2/metrics with 5-minute cache TTL.',
-    checklist:[
-      {text:'Revenue line chart', done:true},
-      {text:'DAU bar chart', done:true},
-      {text:'Retention cohort heatmap', done:true},
-      {text:'Loading skeletons', done:true},
-    ],
-    activity:[
-      {who:'KP',color:'#3b82f6',text:'<strong>Kim Park</strong> added loading skeleton states.',time:'1d ago'},
-    ]
-  },
-  {
-    id:'ACM-104', title:'Migrate DB to PostgreSQL 16', status:'done',
-    priority:'high', pts:13, due:'May 5', assignees:['DC','AM'],
-    tags:['backend','database','devops'],
-    desc:'Upgrade from PostgreSQL 14 to 16 and enable logical replication. Run EXPLAIN ANALYZE on the 20 slowest queries and create new indexes where appropriate.',
-    checklist:[
-      {text:'Staging migration complete', done:true},
-      {text:'Query plan analysis done', done:true},
-      {text:'New composite indexes added', done:false},
-      {text:'Production cutover', done:false},
-    ],
-    activity:[
-      {who:'DC',color:'#ef4444',text:'<strong>Dan Chen</strong> completed staging migration without downtime.',time:'3h ago'},
-    ]
-  },
-  {
-    id:'ACM-105', title:'Email notification service', status:'done',
-    priority:'medium', pts:3, due:'May 3', assignees:['JL'],
-    tags:['backend','notifications'],
-    desc:'Set up transactional email via SendGrid for welcome, password reset, and invoice emails. Use HTML templates with Mjml. Implement bounce and complaint webhooks.',
-    checklist:[
-      {text:'SendGrid account configured', done:true},
-      {text:'Welcome email template', done:true},
-      {text:'Password reset flow', done:true},
-      {text:'Bounce webhook handler', done:true},
-    ],
-    activity:[
-      {who:'JL',color:'#22c55e',text:'<strong>Jordan Lee</strong> deployed email service to production.',time:'2d ago'},
-    ]
-  },
+function teamById(id){ return team.find(t=>t.id===id)||{id:'?',name:'Unknown',color:'#64748b',bg:'rgba(100,116,139,0.2)'}; }
 
-  // IN PROGRESS
+const tasks = [
+  /* ── TO DO ── */
   {
-    id:'ACM-106', title:'Implement real-time notifications (WebSockets)', status:'in-progress',
-    priority:'high', pts:8, due:'May 8', assignees:['AM','DC'],
-    tags:['backend','frontend','realtime'],
-    desc:'Replace polling with WebSocket connections for in-app notifications. Use Socket.io on the backend and zustand on the frontend to manage notification state.',
-    checklist:[
-      {text:'Socket.io server setup', done:true},
-      {text:'Auth handshake on connect', done:true},
-      {text:'Frontend notification store (zustand)', done:false},
-      {text:'Notification bell UI component', done:false},
-      {text:'E2E tests', done:false},
+    id:'ACME-41', status:'todo', priority:'critical', tags:['backend'],
+    title:'Implement OAuth 2.0 SSO with Okta',
+    desc:'Integrate Okta as the identity provider for single sign-on across all internal tools. Support PKCE flow.',
+    assignee:'MR', points:8, due:'2026-05-08',
+    subtasks:[
+      {text:'Register Okta application', done:true},
+      {text:'Configure PKCE callback endpoints', done:false},
+      {text:'Token refresh handler', done:false},
+      {text:'Logout + session cleanup', done:false},
     ],
-    activity:[
-      {who:'AM',color:'#6c63ff',text:'<strong>Alex Morgan</strong> pushed WebSocket auth handshake.',time:'3h ago'},
-      {who:'DC',color:'#ef4444',text:'<strong>Dan Chen</strong> set up Socket.io clustering.',time:'6h ago'},
+    comments:[
+      {author:'AK', text:'Make sure the redirect URI whitelisting includes staging + prod.', time:'2h ago'},
+      {author:'PC', text:'Will need test accounts in Okta sandbox before I can write e2e tests.', time:'45m ago'},
     ]
   },
   {
-    id:'ACM-107', title:'CSV bulk import for user accounts', status:'in-progress',
-    priority:'medium', pts:5, due:'May 9', assignees:['KP'],
-    tags:['backend','admin'],
-    desc:'Allow admins to upload a CSV file containing up to 5,000 user records. Validate each row, send welcome emails, and produce a downloadable error report for failed rows.',
-    checklist:[
-      {text:'File upload endpoint', done:true},
-      {text:'Row validation logic', done:true},
-      {text:'Background job queue (BullMQ)', done:false},
-      {text:'Error report download', done:false},
+    id:'ACME-42', status:'todo', priority:'high', tags:['frontend','design'],
+    title:'Redesign Dashboard Analytics Page',
+    desc:'Update the analytics dashboard with new chart components, dark-mode support, and real-time data updates via WebSocket.',
+    assignee:'AK', points:5, due:'2026-05-10',
+    subtasks:[
+      {text:'Wireframes approved by design', done:true},
+      {text:'Migrate charts from Chart.js v3 → v4', done:false},
+      {text:'Add dark mode toggle support', done:false},
     ],
-    activity:[
-      {who:'KP',color:'#3b82f6',text:'<strong>Kim Park</strong> completed row validation with 40 test cases.',time:'1h ago'},
+    comments:[
+      {author:'SL', text:'Figma file is updated with the new chart color tokens. Link in Notion.', time:'3h ago'},
     ]
   },
   {
-    id:'ACM-108', title:'Billing & subscription management page', status:'in-progress',
-    priority:'critical', pts:13, due:'May 8', assignees:['SR','AM'],
-    tags:['frontend','billing','stripe'],
-    desc:'Build the billing settings page: current plan display, upgrade/downgrade flows, invoice history table, and payment method management using Stripe Elements.',
-    checklist:[
-      {text:'Plan display component', done:true},
-      {text:'Upgrade flow (Stripe Checkout)', done:false},
-      {text:'Invoice history table', done:false},
-      {text:'Payment method update', done:false},
-      {text:'Cancellation flow with feedback survey', done:false},
+    id:'ACME-43', status:'todo', priority:'medium', tags:['devops'],
+    title:'Set Up Kubernetes HPA for API Pods',
+    desc:'Configure Horizontal Pod Autoscaler for the core API deployment to handle burst traffic during peak hours.',
+    assignee:'JH', points:3, due:'2026-05-12',
+    subtasks:[
+      {text:'Baseline CPU/memory metrics collected', done:true},
+      {text:'HPA manifest written', done:false},
+      {text:'Load test to verify scaling', done:false},
     ],
-    activity:[
-      {who:'SR',color:'#f59e0b',text:'<strong>Sam Rivera</strong> started on the plan display component.',time:'4h ago'},
-    ]
+    comments:[]
   },
   {
-    id:'ACM-109', title:'Add dark / light theme toggle', status:'in-progress',
-    priority:'low', pts:2, due:'May 10', assignees:['JL'],
-    tags:['frontend','ui'],
-    desc:'Implement a system-preference-aware theme toggle using CSS custom properties and localStorage persistence. Animate the transition at 200ms ease.',
-    checklist:[
-      {text:'CSS custom property tokens', done:true},
-      {text:'Toggle component', done:true},
-      {text:'localStorage persistence', done:false},
-      {text:'Transition animations', done:false},
+    id:'ACME-44', status:'todo', priority:'low', tags:['frontend'],
+    title:'Accessibility Audit — WCAG 2.1 AA',
+    desc:'Run axe-core and screen reader tests on all primary pages. Document findings and fix critical violations.',
+    assignee:'DT', points:3, due:'2026-05-13',
+    subtasks:[
+      {text:'Run axe-core report', done:false},
+      {text:'Fix keyboard navigation gaps', done:false},
+      {text:'Add ARIA labels to modals', done:false},
     ],
-    activity:[
-      {who:'JL',color:'#22c55e',text:'<strong>Jordan Lee</strong> built the toggle button component.',time:'2h ago'},
+    comments:[]
+  },
+  {
+    id:'ACME-45', status:'todo', priority:'high', tags:['backend','devops'],
+    title:'Migrate PostgreSQL 14 → 16',
+    desc:'Perform in-place major version upgrade with pg_upgrade on the primary RDS instance, plus replica promotion test.',
+    assignee:'MR', points:8, due:'2026-05-09',
+    subtasks:[
+      {text:'Snapshot backup verified', done:true},
+      {text:'pg_upgrade dry-run on staging', done:false},
+      {text:'Replica failover test', done:false},
+      {text:'Update connection strings across services', done:false},
+    ],
+    comments:[
+      {author:'JH', text:'Staging run failed last week due to extension version mismatch on pgvector. Pinned to v0.6.', time:'1d ago'},
     ]
   },
 
-  // IN REVIEW
+  /* ── IN PROGRESS ── */
   {
-    id:'ACM-110', title:'Refactor product search with Elasticsearch', status:'review',
-    priority:'high', pts:8, due:'May 7', assignees:['DC','SR'],
-    tags:['backend','search','performance'],
-    desc:'Replace full-table SQL LIKE queries with Elasticsearch. Implement fuzzy matching, typo tolerance, and faceted filters for category, price range, and rating.',
-    checklist:[
-      {text:'ES index schema defined', done:true},
-      {text:'Sync job for product updates', done:true},
-      {text:'Search API endpoint refactored', done:true},
-      {text:'Frontend filter UI updated', done:true},
-      {text:'Benchmark vs. old search', done:false},
+    id:'ACME-33', status:'progress', priority:'critical', tags:['backend'],
+    title:'Rate Limiting Middleware — Redis-backed',
+    desc:'Add per-IP and per-user sliding-window rate limits using Redis sorted sets. Expose limit headers in all responses.',
+    assignee:'MR', points:5, due:'2026-05-06',
+    subtasks:[
+      {text:'Redis connection pooling configured', done:true},
+      {text:'Sliding window algorithm implemented', done:true},
+      {text:'Headers: X-RateLimit-Limit, Remaining', done:false},
+      {text:'Unit tests for edge cases', done:false},
     ],
-    activity:[
-      {who:'DC',color:'#ef4444',text:'<strong>Dan Chen</strong> submitted PR #412 for review.',time:'5h ago'},
-      {who:'SR',color:'#f59e0b',text:'<strong>Sam Rivera</strong> left 3 review comments.',time:'2h ago'},
+    comments:[
+      {author:'PC', text:'Looks solid so far. Will pair on the edge-case tests tomorrow.', time:'4h ago'},
     ]
   },
   {
-    id:'ACM-111', title:'Unit tests for payment service', status:'review',
-    priority:'medium', pts:3, due:'May 6', assignees:['AM'],
-    tags:['testing','backend'],
-    desc:'Achieve 90%+ coverage on the payment service module. Mock external Stripe calls. Write tests for edge cases: card decline, 3DS authentication, webhook retry logic.',
-    checklist:[
-      {text:'Happy path tests', done:true},
-      {text:'Card decline scenarios', done:true},
-      {text:'3DS mock tests', done:true},
-      {text:'Webhook retry tests', done:true},
+    id:'ACME-34', status:'progress', priority:'high', tags:['frontend'],
+    title:'Build Notification Center Component',
+    desc:'Real-time in-app notification bell with WebSocket subscription, read/unread state, and grouping by category.',
+    assignee:'AK', points:5, due:'2026-05-07',
+    subtasks:[
+      {text:'WebSocket hook created', done:true},
+      {text:'Notification Bell UI', done:true},
+      {text:'Read/unread state management', done:false},
+      {text:'Group by category', done:false},
     ],
-    activity:[
-      {who:'AM',color:'#6c63ff',text:'<strong>Alex Morgan</strong> achieved 93% coverage, ready for review.',time:'1h ago'},
+    comments:[
+      {author:'DT', text:'Need the backend WS event schema finalized before I can mock properly.', time:'2h ago'},
+      {author:'MR', text:'Schema doc is up in Confluence — ACME/notifications/ws-events', time:'1h ago'},
     ]
   },
   {
-    id:'ACM-112', title:'CDN setup for static assets', status:'review',
-    priority:'low', pts:2, due:'May 7', assignees:['KP'],
-    tags:['devops','performance'],
-    desc:'Configure CloudFront distribution for all images, fonts, and JS bundles. Set cache headers (max-age=31536000, immutable) and enable gzip/brotli compression.',
-    checklist:[
-      {text:'CloudFront distribution created', done:true},
-      {text:'Cache-control headers set', done:true},
-      {text:'Brotli compression enabled', done:false},
+    id:'ACME-35', status:'progress', priority:'medium', tags:['design'],
+    title:'Design System — Tokens v2 Export',
+    desc:'Export updated design tokens (color, spacing, radius, shadows) to CSS custom properties and Tailwind config.',
+    assignee:'SL', points:3, due:'2026-05-08',
+    subtasks:[
+      {text:'Color ramps finalized in Figma', done:true},
+      {text:'Token JSON exported from Figma', done:true},
+      {text:'Tailwind config updated', done:false},
     ],
-    activity:[
-      {who:'KP',color:'#3b82f6',text:'<strong>Kim Park</strong> opened PR #415 — awaiting DevOps sign-off.',time:'3h ago'},
+    comments:[]
+  },
+  {
+    id:'ACME-36', status:'progress', priority:'high', tags:['qa'],
+    title:'End-to-End Test Suite — Checkout Flow',
+    desc:'Playwright tests covering the full checkout flow: cart → shipping → payment → confirmation, across 3 browsers.',
+    assignee:'PC', points:5, due:'2026-05-07',
+    subtasks:[
+      {text:'Cart and shipping steps covered', done:true},
+      {text:'Payment step (Stripe sandbox)', done:false},
+      {text:'Confirmation + email assertion', done:false},
+      {text:'Cross-browser matrix (Chrome, FF, Safari)', done:false},
+    ],
+    comments:[
+      {author:'AK', text:'Stripe sandbox keys added to .env.test — check the Vault path.', time:'5h ago'},
     ]
   },
 
-  // TO DO
+  /* ── IN REVIEW ── */
   {
-    id:'ACM-113', title:'Multi-language i18n support (EN, ES, FR)', status:'todo',
-    priority:'medium', pts:8, due:'May 11', assignees:['SR'],
-    tags:['frontend','i18n'],
-    desc:'Integrate react-i18next. Extract all UI strings into locale JSON files. Support English, Spanish, and French at launch. Add a language switcher in the user profile settings.',
-    checklist:[
-      {text:'Library setup (react-i18next)', done:false},
-      {text:'EN locale file', done:false},
-      {text:'ES locale file', done:false},
-      {text:'FR locale file', done:false},
-      {text:'Language switcher UI', done:false},
+    id:'ACME-27', status:'review', priority:'high', tags:['backend'],
+    title:'GraphQL API — Product Catalog Schema',
+    desc:'New GraphQL schema for product catalog with pagination, filtering, and nested category queries. PR open for review.',
+    assignee:'DT', points:8, due:'2026-05-06',
+    subtasks:[
+      {text:'Schema definition complete', done:true},
+      {text:'Resolvers implemented', done:true},
+      {text:'Dataloader batching for N+1', done:true},
+      {text:'Code review feedback addressed', done:false},
     ],
-    activity:[]
+    comments:[
+      {author:'MR', text:'Left 3 comments on the resolver file — mainly about error boundary handling.', time:'6h ago'},
+      {author:'DT', text:'Addressing them now, should have re-requested review by EOD.', time:'3h ago'},
+    ]
   },
   {
-    id:'ACM-114', title:'Admin audit log viewer', status:'todo',
-    priority:'high', pts:5, due:'May 11', assignees:['DC'],
-    tags:['backend','admin','security'],
-    desc:'Build a searchable, paginated audit log page for admin users. Log all write operations (create, update, delete) with actor, IP, and timestamp. Retain logs for 90 days.',
-    checklist:[
-      {text:'Audit log DB schema', done:false},
-      {text:'Middleware to capture write ops', done:false},
-      {text:'Admin viewer page', done:false},
-      {text:'CSV export for compliance', done:false},
+    id:'ACME-28', status:'review', priority:'medium', tags:['frontend'],
+    title:'User Profile Page Refactor',
+    desc:'Refactor profile page to use new design tokens, remove deprecated components, and add avatar upload via S3.',
+    assignee:'AK', points:3, due:'2026-05-07',
+    subtasks:[
+      {text:'Old components removed', done:true},
+      {text:'Token migration complete', done:true},
+      {text:'S3 avatar upload working', done:true},
+      {text:'PR review approved', done:false},
     ],
-    activity:[]
+    comments:[
+      {author:'SL', text:'Design looks great — +1 from design side. Just a tiny spacing nit on line 234.', time:'1h ago'},
+    ]
   },
   {
-    id:'ACM-115', title:'Mobile responsive navigation', status:'todo',
-    priority:'medium', pts:3, due:'May 10', assignees:['JL','SR'],
-    tags:['frontend','mobile','ui'],
-    desc:'Convert the top navigation to a slide-out drawer on screens < 768px. Use CSS transitions (transform: translateX). Trap focus within drawer when open for accessibility.',
-    checklist:[
-      {text:'Drawer component', done:false},
-      {text:'Hamburger toggle button', done:false},
-      {text:'Focus trap implementation', done:false},
+    id:'ACME-29', status:'review', priority:'low', tags:['devops'],
+    title:'GitHub Actions — Docker Layer Caching',
+    desc:'Optimize CI pipeline build times by enabling Docker layer caching with GitHub Cache backend.',
+    assignee:'JH', points:2, due:'2026-05-08',
+    subtasks:[
+      {text:'Cache action configured', done:true},
+      {text:'Build time reduced 40%', done:true},
+      {text:'Pipeline docs updated', done:false},
     ],
-    activity:[]
+    comments:[
+      {author:'JH', text:'Build went from 8m 40s to 5m 12s. Will document the cache hit/miss rules.', time:'12h ago'},
+    ]
+  },
+
+  /* ── DONE ── */
+  {
+    id:'ACME-18', status:'done', priority:'critical', tags:['backend'],
+    title:'JWT Authentication Service Rewrite',
+    desc:'Replaced legacy session cookies with stateless JWT auth service. RS256 signing, refresh token rotation, blacklisting.',
+    assignee:'MR', points:13, due:'2026-04-30',
+    subtasks:[
+      {text:'JWT signing/verification', done:true},
+      {text:'Refresh token rotation', done:true},
+      {text:'Token blacklist via Redis', done:true},
+      {text:'Migration of existing sessions', done:true},
+    ],
+    comments:[
+      {author:'PC', text:'All security tests passing. Merged to main.', time:'3d ago'},
+    ]
   },
   {
-    id:'ACM-116', title:'Onboarding checklist for new users', status:'todo',
-    priority:'low', pts:3, due:'May 11', assignees:['KP','AM'],
-    tags:['frontend','ux'],
-    desc:'Show a dismissible checklist widget on the dashboard for users who signed up in the last 7 days. Steps: complete profile, invite a teammate, create first project, connect integration.',
-    checklist:[
-      {text:'Widget component design', done:false},
-      {text:'Step completion tracking', done:false},
-      {text:'Dismiss & remember preference', done:false},
+    id:'ACME-19', status:'done', priority:'high', tags:['frontend','design'],
+    title:'Onboarding Flow — Step Wizard',
+    desc:'New multi-step onboarding wizard for new users: account setup, team invite, first project creation. Fully animated.',
+    assignee:'AK', points:8, due:'2026-04-30',
+    subtasks:[
+      {text:'All 4 steps implemented', done:true},
+      {text:'Animations via Framer Motion', done:true},
+      {text:'Mobile responsive', done:true},
+      {text:'Analytics events tracked', done:true},
     ],
-    activity:[]
+    comments:[
+      {author:'SL', text:'Exactly as designed. Shipped it.', time:'4d ago'},
+    ]
+  },
+  {
+    id:'ACME-20', status:'done', priority:'medium', tags:['qa'],
+    title:'Unit Test Coverage — API Layer 80%',
+    desc:'Brought API layer test coverage from 54% to 83% using Jest. Added mocks for third-party services.',
+    assignee:'PC', points:5, due:'2026-05-01',
+    subtasks:[
+      {text:'Coverage target reached', done:true},
+      {text:'CI gate enabled', done:true},
+    ],
+    comments:[]
+  },
+  {
+    id:'ACME-21', status:'done', priority:'low', tags:['devops'],
+    title:'Terraform — Staging Environment Parity',
+    desc:'Brought staging infra to 100% parity with production using Terraform modules. Enabled auto-apply via GitHub Actions.',
+    assignee:'JH', points:5, due:'2026-05-02',
+    subtasks:[
+      {text:'All modules migrated', done:true},
+      {text:'Drift detection enabled', done:true},
+    ],
+    comments:[]
   },
 ];
 
-/* ─── COLUMNS CONFIG ─── */
-const COLUMNS = [
-  { id:'todo',        label:'To Do',       dot:'#94a3b8' },
-  { id:'in-progress', label:'In Progress', dot:'#3b82f6' },
-  { id:'review',      label:'In Review',   dot:'#f59e0b' },
-  { id:'done',        label:'Done',        dot:'#22c55e' },
-];
-
+/* ─── STATE ─── */
 let activeFilter = 'all';
 let searchQuery = '';
 
-/* ─── RENDER ─── */
-function render() {
-  const q = searchQuery.toLowerCase();
-  const board = document.getElementById('board');
-  board.innerHTML = '';
+/* ─── TEAM AVATARS ─── */
+function renderTeam(){
+  const el = document.getElementById('team-avatars');
+  el.innerHTML = team.map(m=>`
+    <div class="avatar" style="background:${m.bg};color:${m.color};" title="${m.name} — ${m.role}">${m.id}</div>
+  `).join('');
+}
 
-  COLUMNS.forEach(col => {
-    const filtered = tasks.filter(t => {
-      if (t.status !== col.id) return false;
-      if (activeFilter !== 'all' && t.priority !== activeFilter) return false;
-      if (q && !t.title.toLowerCase().includes(q) && !t.tags.join(' ').includes(q)) return false;
-      return true;
-    });
-
-    const colEl = document.createElement('div');
-    colEl.className = 'column';
-    colEl.innerHTML = `
-      <div class="col-header">
-        <div class="col-title-wrap">
-          <div class="col-dot" style="background:${col.dot}"></div>
-          <div class="col-title">${col.label}</div>
-        </div>
-        <div class="col-count">${filtered.length}</div>
+/* ─── CARD RENDER ─── */
+function priorityLabel(p){
+  const map={critical:'⚠ Critical',high:'↑ High',medium:'→ Medium',low:'↓ Low'};
+  return map[p]||p;
+}
+function buildCard(task){
+  const m = teamById(task.assignee);
+  const tagHtml = task.tags.map(t=>`<span class="tag tag-${t}">${t}</span>`).join('');
+  const subDone = task.subtasks.filter(s=>s.done).length;
+  const subTotal = task.subtasks.length;
+  const dueDate = new Date(task.due);
+  const now = new Date();
+  const diffDays = Math.ceil((dueDate - now)/(1000*60*60*24));
+  let dueClass = '';
+  if(diffDays < 0) dueClass = 'overdue';
+  else if(diffDays <= 2) dueClass = 'soon';
+  const dueStr = dueDate.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const subtaskPreview = task.subtasks.slice(0,2).map(s=>`
+    <div class="subtask-item">
+      <input class="subtask-check" type="checkbox" ${s.done?'checked':''} onchange="toggleSubtask('${task.id}',${task.subtasks.indexOf(s)})" onclick="event.stopPropagation()"/>
+      <span style="${s.done?'text-decoration:line-through;color:var(--text3)':''}">${s.text}</span>
+    </div>`).join('');
+  const doneCheck = task.status==='done'?'<div class="card-done-check">✓</div>':'';
+  return `
+  <div class="card p-${task.priority}" data-id="${task.id}" data-tags="${task.tags.join(',')}" onclick="openModal('${task.id}')">
+    ${doneCheck}
+    <div class="card-top">
+      <div class="card-tags">${tagHtml}</div>
+      <div class="card-priority priority-${task.priority}">${priorityLabel(task.priority)}</div>
+    </div>
+    <div class="card-title">${task.title}</div>
+    <div class="card-desc">${task.desc}</div>
+    ${subTotal>0?`<div class="checkbox-wrap">${subtaskPreview}</div>`:''}
+    <div class="card-footer" style="margin-top:12px;">
+      <div class="card-meta">
+        <div class="card-id">${task.id}</div>
+        <div class="card-points">${task.points} pts</div>
+        ${task.comments.length>0?`<div class="card-id">💬 ${task.comments.length}</div>`:''}
+        ${subTotal>0?`<div class="card-id">☑ ${subDone}/${subTotal}</div>`:''}
       </div>
-      <div class="cards-list" id="col-${col.id}">
-        ${filtered.length === 0 ? '<div class="empty-col">No tasks here</div>' : ''}
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="card-due ${dueClass}">${dueClass==='overdue'?'🔴':'📅'} ${dueStr}</div>
+        <div class="card-assignee" style="background:${m.bg};color:${m.color};" title="${m.name}">${m.id}</div>
       </div>
-    `;
-    board.appendChild(colEl);
+    </div>
+  </div>`;
+}
 
-    const list = colEl.querySelector(`#col-${col.id}`);
-    filtered.forEach(t => {
-      const card = buildCard(t);
-      list.appendChild(card);
-    });
+/* ─── RENDER ALL ─── */
+function render(){
+  const cols = {todo:[],progress:[],review:[],done:[]};
+  tasks.forEach(t=>{
+    const tagMatch = activeFilter==='all' || t.tags.includes(activeFilter);
+    const searchMatch = !searchQuery || t.title.toLowerCase().includes(searchQuery.toLowerCase()) || t.id.toLowerCase().includes(searchQuery.toLowerCase());
+    if(tagMatch && searchMatch) cols[t.status].push(t);
   });
+
+  document.getElementById('list-todo').innerHTML = cols.todo.map(buildCard).join('') || emptyState();
+  document.getElementById('list-progress').innerHTML = cols.progress.map(buildCard).join('') || emptyState();
+  document.getElementById('list-review').innerHTML = cols.review.map(buildCard).join('') || emptyState();
+  document.getElementById('list-done').innerHTML = cols.done.map(buildCard).join('') || emptyState();
+
+  document.getElementById('cnt-todo').textContent = cols.todo.length;
+  document.getElementById('cnt-progress').textContent = cols.progress.length;
+  document.getElementById('cnt-review').textContent = cols.review.length;
+  document.getElementById('cnt-done').textContent = cols.done.length;
 
   updateStats();
 }
 
-function buildCard(t) {
-  const el = document.createElement('div');
-  el.className = `card priority-${t.priority}`;
-  el.onclick = () => openDetail(t.id);
-
-  const assigneeHTML = t.assignees.map(a =>
-    `<div class="avatar" style="background:${ASSIGNEE_COLORS[a]||'#666'}" title="${a}">${a}</div>`
-  ).join('');
-
-  const tagsHTML = t.tags.map(tag => `<div class="tag">${tag}</div>`).join('');
-
-  const done = t.checklist.filter(c=>c.done).length;
-  const total = t.checklist.length;
-
-  el.innerHTML = `
-    <div class="card-top">
-      <div class="card-id">${t.id}</div>
-      <div class="priority-badge ${t.priority}">${t.priority}</div>
-    </div>
-    <div class="card-title">${t.title}</div>
-    <div class="card-tags">${tagsHTML}</div>
-    <div class="card-footer">
-      <div class="card-meta">
-        <div class="story-pts">⚡ ${t.pts}pts</div>
-        ${total > 0 ? `<div class="due-date">${done}/${total} tasks</div>` : ''}
-      </div>
-      <div class="card-assignees">${assigneeHTML}</div>
-    </div>
-  `;
-  return el;
+function emptyState(){
+  return `<div style="text-align:center;padding:32px 0;color:var(--text3);font-size:0.82rem;">No tasks</div>`;
 }
 
 /* ─── STATS ─── */
-function updateStats() {
+function updateStats(){
+  const done = tasks.filter(t=>t.status==='done').length;
+  const inprogress = tasks.filter(t=>t.status==='progress').length;
+  const todo = tasks.filter(t=>t.status==='todo').length;
   const total = tasks.length;
-  const done  = tasks.filter(t=>t.status==='done').length;
-  const prog  = tasks.filter(t=>t.status==='in-progress').length;
-  const pts   = tasks.reduce((s,t)=>s+t.pts,0);
-  const pct   = Math.round((done/total)*100);
+  const totalPts = tasks.reduce((a,t)=>a+t.points,0);
+  const pct = Math.round((done/total)*100);
 
-  document.getElementById('stat-total').textContent   = total;
-  document.getElementById('stat-done').textContent    = done;
-  document.getElementById('stat-progress').textContent= prog;
-  document.getElementById('stat-pts').textContent     = pts;
+  document.getElementById('done-count').textContent = done;
+  document.getElementById('inprogress-count').textContent = inprogress;
+  document.getElementById('todo-count').textContent = todo;
+  document.getElementById('total-points').textContent = totalPts;
   document.getElementById('progress-pct').textContent = pct+'%';
-  document.getElementById('progress-fill').style.width = pct+'%';
+  setTimeout(()=>{ document.getElementById('progress-fill').style.width = pct+'%'; },100);
 }
 
 /* ─── FILTER / SEARCH ─── */
-function applyFilter(btn, f) {
+function setFilter(f, btn){
   activeFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-tab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   render();
 }
-function applySearch() {
-  searchQuery = document.getElementById('searchInput').value;
-  render();
+function searchTasks(q){ searchQuery = q; render(); }
+
+/* ─── SUBTASK TOGGLE ─── */
+function toggleSubtask(taskId, idx){
+  const t = tasks.find(t=>t.id===taskId);
+  if(t) t.subtasks[idx].done = !t.subtasks[idx].done;
+  // Don't re-render to preserve UX (checkbox already visually toggled)
 }
 
-/* ─── DETAIL MODAL ─── */
-function openDetail(id) {
+/* ─── MODAL ─── */
+function openModal(id){
   const t = tasks.find(x=>x.id===id);
-  if (!t) return;
+  if(!t) return;
+  const m = teamById(t.assignee);
+  document.getElementById('m-id').textContent = t.id + ' · ' + t.tags.join(', ') + ' · ' + t.points + ' story points';
+  document.getElementById('m-title').textContent = t.title;
 
-  document.getElementById('d-id').textContent = t.id;
-  document.getElementById('d-title').textContent = t.title;
-  document.getElementById('d-desc').textContent = t.desc;
+  const dueDate = new Date(t.due);
+  const dueStr = dueDate.toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric',year:'numeric'});
+  const statusLabels = {todo:'To Do',progress:'In Progress',review:'In Review',done:'Done'};
 
-  // status label
-  const statusLabel = { todo:'To Do', 'in-progress':'In Progress', review:'In Review', done:'Done' }[t.status];
-  document.getElementById('d-meta').innerHTML = `
-    <div class="meta-item">
-      <div class="meta-key">Status</div>
-      <div class="meta-val"><span class="status-chip ${t.status}">${statusLabel}</span></div>
-    </div>
-    <div class="meta-item">
-      <div class="meta-key">Priority</div>
-      <div class="meta-val"><span class="priority-badge ${t.priority}">${t.priority}</span></div>
-    </div>
-    <div class="meta-item">
-      <div class="meta-key">Story Points</div>
-      <div class="meta-val">⚡ ${t.pts}</div>
-    </div>
-    <div class="meta-item">
-      <div class="meta-key">Due</div>
-      <div class="meta-val">${t.due}</div>
-    </div>
-    <div class="meta-item">
-      <div class="meta-key">Assignees</div>
-      <div class="meta-val" style="display:flex;gap:4px">
-        ${t.assignees.map(a=>`<div class="avatar" style="background:${ASSIGNEE_COLORS[a]||'#666'};width:26px;height:26px;font-size:9px">${a}</div>`).join('')}
+  const subtasksHtml = t.subtasks.map((s,i)=>`
+    <div class="modal-subtask">
+      <input type="checkbox" ${s.done?'checked':''} onchange="toggleSubtaskModal('${t.id}',${i},this)"/>
+      <span style="${s.done?'text-decoration:line-through;color:var(--text3)':''}">${s.text}</span>
+    </div>`).join('');
+
+  const commentsHtml = t.comments.map(c=>{
+    const cm = teamById(c.author);
+    return `<div class="comment">
+      <div class="comment-avatar" style="background:${cm.bg};color:${cm.color};">${cm.id}</div>
+      <div class="comment-bubble">
+        <div class="comment-author" style="color:${cm.color};">${cm.name}</div>
+        <div class="comment-text">${c.text}</div>
+        <div class="comment-time">${c.time}</div>
       </div>
+    </div>`;
+  }).join('') || '<div style="color:var(--text3);font-size:0.82rem;">No comments yet.</div>';
+
+  document.getElementById('m-body').innerHTML = `
+    <div class="modal-row">
+      <div class="modal-field"><label>Status</label><div class="modal-field-val">${statusLabels[t.status]}</div></div>
+      <div class="modal-field"><label>Priority</label><div class="modal-field-val priority-${t.priority}">${priorityLabel(t.priority)}</div></div>
+      <div class="modal-field"><label>Due</label><div class="modal-field-val">${dueStr}</div></div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-field"><label>Assignee</label>
+        <div class="modal-field-val" style="display:flex;align-items:center;gap:8px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:${m.bg};color:${m.color};font-size:0.65rem;font-weight:700;display:grid;place-items:center;">${m.id}</div>
+          ${m.name} <span style="color:var(--text3);font-size:0.78rem;">— ${m.role}</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-field">
+      <label>Description</label>
+      <div class="modal-desc">${t.desc}</div>
+    </div>
+    ${t.subtasks.length>0?`
+      <div class="modal-field">
+        <div class="modal-section-label">Subtasks (${t.subtasks.filter(s=>s.done).length}/${t.subtasks.length})</div>
+        <div class="modal-subtasks">${subtasksHtml}</div>
+      </div>`:''}
+    <div class="modal-field">
+      <div class="modal-section-label">Comments (${t.comments.length})</div>
+      <div class="modal-comments">${commentsHtml}</div>
     </div>
   `;
 
-  // checklist
-  const cl = document.getElementById('d-checklist');
-  cl.innerHTML = t.checklist.map((c,i) => `
-    <label class="check-item ${c.done?'done':''}" onclick="toggleCheck('${id}',${i})">
-      <input type="checkbox" ${c.done?'checked':''} onclick="event.stopPropagation();toggleCheck('${id}',${i})" />
-      <span>${c.text}</span>
-    </label>
-  `).join('');
-
-  // activity
-  const act = document.getElementById('d-activity');
-  if (t.activity.length === 0) {
-    act.innerHTML = '<div style="color:var(--text-muted);font-size:12px">No activity yet.</div>';
-  } else {
-    act.innerHTML = t.activity.map(a => `
-      <div class="activity-item">
-        <div class="avatar" style="background:${a.color}">${a.who}</div>
-        <div>
-          <div class="activity-text">${a.text}</div>
-          <div class="activity-time">${a.time}</div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  document.getElementById('detailOverlay').classList.add('open');
+  document.getElementById('modal-overlay').classList.add('open');
 }
 
-function toggleCheck(taskId, i) {
+function toggleSubtaskModal(taskId, idx, el){
   const t = tasks.find(x=>x.id===taskId);
-  if (t) { t.checklist[i].done = !t.checklist[i].done; }
-  openDetail(taskId); // re-render modal
-  render();
+  if(t){ t.subtasks[idx].done = el.checked; }
+  const span = el.nextElementSibling;
+  if(span){ span.style.textDecoration = el.checked?'line-through':''; span.style.color = el.checked?'var(--text3)':''; }
 }
 
-/* ─── ADD MODAL ─── */
-function openAddModal() {
-  document.getElementById('addOverlay').classList.add('open');
-}
-
-function addTask() {
-  const title = document.getElementById('f-title').value.trim();
-  if (!title) { document.getElementById('f-title').focus(); return; }
-
-  const tagsRaw = document.getElementById('f-tags').value;
-  const tags = tagsRaw ? tagsRaw.split(',').map(s=>s.trim()).filter(Boolean) : [];
-  const assignee = document.getElementById('f-assignee').value;
-
-  const newId = 'ACM-' + (100 + tasks.length + 1);
-  tasks.push({
-    id: newId,
-    title,
-    status: document.getElementById('f-status').value,
-    priority: document.getElementById('f-priority').value,
-    pts: parseInt(document.getElementById('f-pts').value) || 3,
-    due: 'May 11',
-    assignees: [assignee],
-    tags,
-    desc: document.getElementById('f-desc').value.trim() || 'No description provided.',
-    checklist: [],
-    activity: [],
-  });
-
-  // reset
-  ['f-title','f-desc','f-tags'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-pts').value = 3;
-
-  closeModal('addOverlay');
-  render();
-  showToast('Task ' + newId + ' created!');
-}
-
-/* ─── MODAL HELPERS ─── */
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function closeIfOverlay(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
-
-/* ─── TOAST ─── */
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-/* ─── KEYBOARD ─── */
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeModal('detailOverlay');
-    closeModal('addOverlay');
+function closeModal(e){
+  if(!e || e.target===document.getElementById('modal-overlay')){
+    document.getElementById('modal-overlay').classList.remove('open');
   }
-});
+}
+
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
 /* ─── INIT ─── */
+renderTeam();
 render();
 </script>
 </body>
