@@ -228,6 +228,38 @@
   .tab-modified { width: 8px; height: 8px; border-radius: 50%; background: #6e7681; flex-shrink: 0; }
   .tab.modified .tab-modified { background: #f0db4f; }
 
+  /* ── Save Button ── */
+  .save-btn-wrap {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .save-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    background: #238636;
+    color: #ffffff;
+    border: 1px solid #2ea043;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .save-btn:hover { background: #2ea043; border-color: #3fb950; }
+  .save-btn:active { transform: scale(0.96); }
+  .save-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .save-btn.saved {
+    background: #1f6feb;
+    border-color: #388bfd;
+  }
+
   /* ── Breadcrumb ── */
   .breadcrumb {
     display: flex; align-items: center;
@@ -661,6 +693,13 @@
           <svg viewBox="0 0 10 10" fill="currentColor"><path d="M1 1l8 8M9 1L1 9" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
         </div>
       </div>
+      <!-- Save Button -->
+      <div class="save-btn-wrap">
+        <button class="save-btn" id="saveBtn" onclick="handleSave()" title="Save file (Ctrl+S)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+          Save
+        </button>
+      </div>
     </div>
 
     <!-- Breadcrumb -->
@@ -1058,6 +1097,47 @@ function renderTerminal() {
     <div class="term-line" style="margin-top:4px"><span class="term-prompt">~/agent-trial</span><span class="term-out"> on </span><span style="color:#d2a8ff"> main</span><span class="term-out"> ❯ </span><span class="term-cursor"></span></div>
   `;
 }
+
+function handleSave() {
+  const btn = document.getElementById('saveBtn');
+  if (!btn) return;
+
+  // Remove the modified dot from the active tab
+  const activeTab = document.querySelector('.tab.active');
+  if (activeTab) activeTab.classList.remove('modified');
+
+  // Visual feedback: switch to "Saved!" state
+  btn.classList.add('saved');
+  btn.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    Saved!
+  `;
+
+  // Log to terminal
+  const t = document.getElementById('terminalOutput');
+  const line = document.createElement('div');
+  line.className = 'term-line';
+  line.innerHTML = `<span class="term-ok">✓ ${currentFile} saved</span>`;
+  t.appendChild(line);
+  t.scrollTop = t.scrollHeight;
+
+  // Reset after 1.8 seconds
+  setTimeout(() => {
+    btn.classList.remove('saved');
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+      Save
+    `;
+  }, 1800);
+}
+
+// Ctrl+S / Cmd+S keyboard shortcut
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    handleSave();
+  }
+});
 
 // Init
 renderCode('index.js');
