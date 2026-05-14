@@ -1,64 +1,79 @@
-# Projet Agent Trial
+# Introduction à React (en français)
 
-## Description
+## Qu’est-ce que React ?
+React est une bibliothèque JavaScript créée pour construire des interfaces utilisateur (UI) de manière **modulaire**, **rapide** et **maintenable**. Elle est principalement utilisée pour développer des applications web modernes basées sur des composants.
 
-Ce projet est un environnement de test pour les agents automatisés. Il contient des fichiers d'exemple permettant de démontrer les capacités de base du système.
+## Pourquoi utiliser React ?
+- **Composants réutilisables** : vous découpez l’interface en blocs indépedsadsadndants.
+- **Rendu efficace** : React met à jour le DOM de façon optimisée.
+- **Écosystème riche** : outils, bibliothèques, communauté très sadsad.asahsjahs
+- sajhsjkas
+- sakshakjshdasdasd
+- **Bonne maintenabilité** : architecture claire pour les applications qui évoluent.
+sadas
+## Concepts clés
 
-## Structure du projet
+### 1) Les composantsdasdas
+Un composant est une fonction (ou classe) qui retourne de l’interface.
 
-```
-.
-├── README.md       # Ce fichier de documentation
-├── hello.js        # Script JavaScript de démonstration
-└── index.html      # Page HTML principale
-```
-
-## Prérequis
-
-- [Node.js](https://nodejs.org/) (version 18 ou supérieure)
-- Un navigateur web moderne
-
-## Installation
-
-Clonez le dépôt sur votre machine locale :
-
-```bash
-git clone https://github.com/krishna2700/agent-trial.git
-cd agent-trial
-```
-
-## Utilisation
-
-### Exécuter le script JavaScript
-
-```bash
-node hello.js
+- **Composant parent** : contient d’autdasdasdres composants.
+- **Composant enfant** : reçoit des données du parent.
+sadasd
+### 2) JSX
+JSX est une syntaxe qui ressemble à dudasdasdasd HTML dans JsadasdavaScript.sasjkhsjka
+asajsgbajhssadsadsa
+dasdasd
+Exemple :
+```jsx
+const element = <h1>Bonjour React</h1>;
 ```
 
-### Ouvrir la page HTML
+### 3) Props
+Les **props** sont des données passées d’un composant parent vers un compossasjkashjks
+asjajshaant enfant.
+Elles sont en lecture seule dans le composant enfant.
 
-Ouvrez le fichier `index.html` directement dans votre navigateur, ou lancez un serveur local :
+### 4) State
+Le **state** représente les données internes d’un composant qui peuvent changer dans le temps (interaction utilisateur, réponse API, etc.).
 
-```bash
-python3 -m http.server 3456
+### 5) Flux de données unidirectionnel
+En React, les données circulent principalement du parent vers l’enfant. Ce modèle rend le comportement de l’application plus prévisible.
+
+## Hooks essentiels
+
+### useState
+Permet de gérer un état local dans un composant fonctionnel.
+
+### useEffect
+Permet d’exécuter des effets secondaires (appel API, abonnement, timers, etc.) après le rendu.
+
+## Exemple minimal
+
+```jsx
+import { useState } from 'react';
+
+function Compteur() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Compteur : {count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Incrémenter
+      </button>
+    </div>
+  );
+}
+
+export default Compteur;
 ```
 
-Puis accédez à `http://localhost:3456` dans votre navigateur.
+## Bonnes pratiques pour débuter
+- Garder les composants petits et lisibles.
+- Nommer clairement les composants et les variables.
+- Éviter la logique métier trop lourde dans l’UI.
+- Factoriser les parties réutilisables.
+- Ajouter des tests au fur et à mesure de la croissance du projet.
 
-## Contribution
-
-Les contributions sont les bienvenues ! Pour contribuer :
-
-1. Forkez le dépôt
-2. Créez une branche pour votre fonctionnalité (`git checkout -b feature/ma-fonctionnalite`)
-3. Committez vos modifications (`git commit -m 'Ajout de ma fonctionnalité'`)
-4. Poussez vers la branche (`git push origin feature/ma-fonctionnalite`)
-5. Ouvrez une Pull Request
-
-## Licence
-
-Ce projet est distribué sous la licence MIT. Voir le fichier `LICENSE` pour plus d'informations.
-
-## Contact
-
-Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue sur le dépôt GitHub.
+## Conclusion
+React est une excellente porte d’entrée pour construire des interfaces modernes et robustes. En maîtrisant composants, props, state et hooks, vous pouvez développer des applications évolutives et professionnelles.
