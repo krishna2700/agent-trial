@@ -1,8 +1,12 @@
-// README Generator Controller — v2.0
-// Generates fully customizable README files in 15 languages.
-// Supports single-language, bulk, and all-at-once generation.
+import http from "http";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-// ── Language Definitions ──────────────────────────────────────────────────────
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ── Language Templates (15 languages) ─────────────────────────────────────────
 
 const LANGUAGES = {
   en: {
@@ -177,7 +181,7 @@ const LANGUAGES = {
 function normalizeArray(val) {
   if (!val) return null;
   if (Array.isArray(val)) return val.filter(Boolean);
-  return String(val).split(",").map((v) => v.trim()).filter(Boolean);
+  return val.split(",").map((v) => v.trim()).filter(Boolean);
 }
 
 function buildReadme(langCode, p) {
@@ -227,234 +231,178 @@ ${s.licenseText(license)}
 `;
 }
 
-function langFilename(langCode) {
-  return langCode === "en" ? "README.md" : `README.${langCode}.md`;
+// ── Helpers ────────────────────────────────────────────────────────────────────
+
+const SAVE_DIR = path.join(__dirname, "readme-api-files");
+
+function sendJSON(res, status, data) {
+  const body = JSON.stringify(data, null, 2);
+  res.writeHead(status, {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Content-Length": Buffer.byteLength(body),
+  });
+  res.end(body);
 }
 
-// ── Controller Exports ─────────────────────────────────────────────────────────
-
-// GET /api/readme/languages
-// Returns all supported language codes with names and text direction.
-export const getSupportedLanguages = (req, res) => {
-  res.json({
-    count: Object.keys(LANGUAGES).length,
-    languages: Object.entries(LANGUAGES).map(([code, l]) => ({
-      code,
-      name: l.name,
-      direction: l.direction,
-    })),
+function parseBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      try { resolve(body ? JSON.parse(body) : {}); }
+      catch { reject(new Error("Invalid JSON body")); }
+    });
   });
-};
+}
 
-// POST /api/readme/generate
-// Body: { language, name, description, features?, techStack?, repoUrl?, license?, format? }
-// Returns JSON with generated content, or raw Markdown if format=raw.
-export const generateReadme = (req, res) => {
-  const {
-    language = "en",
-    name,
-    description,
-    features,
-    techStack,
-    repoUrl = "",
-    license = "MIT",
-    format = "json",
-  } = req.body;
+function saveFile(filename, content) {
+  if (!fs.existsSync(SAVE_DIR)) fs.mkdirSync(SAVE_DIR, { recursive: true });
+  const filePath = path.join(SAVE_DIR, filename);
+  fs.writeFileSync(filePath, content, "utf-8");
+  return filePath;
+}
 
-  if (!name?.trim()) {
-    return res.status(400).json({
-      success: false,
-      error: 'Missing required field: "name"',
-      hint: 'Provide a project name, e.g. { "name": "My App", "description": "...", "language": "es" }',
-    });
-  }
-  if (!description?.trim()) {
-    return res.status(400).json({
-      success: false,
-      error: 'Missing required field: "description"',
-    });
+// ── Server ─────────────────────────────────────────────────────────────────────
+
+const server = http.createServer(async (req, res) => {
+  const url = new URL(req.url, "http://localhost");
+  const pathname = url.pathname;
+  const method = req.method;
+
+  if (method === "OPTIONS") {
+    res.writeHead(204, { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" });
+    return res.end();
   }
 
-  const langCode = language.toLowerCase().trim();
-  if (!LANGUAGES[langCode]) {
-    return res.status(404).json({
-      success: false,
-      error: `Language code "${langCode}" is not supported.`,
-      supportedCodes: Object.keys(LANGUAGES),
-    });
-  }
-
-  const content = buildReadme(langCode, {
-    name: name.trim(),
-    description: description.trim(),
-    features,
-    techStack,
-    repoUrl,
-    license,
-  });
-
-  const filename = langFilename(langCode);
-  const langInfo = LANGUAGES[langCode];
-
-  // Return raw Markdown for download if requested
-  if (format === "raw") {
-    return res
-      .setHeader("Content-Type", "text/markdown; charset=utf-8")
-      .setHeader("Content-Disposition", `attachment; filename="${filename}"`)
-      .send(content);
-  }
-
-  return res.status(201).json({
-    success: true,
-    language: { code: langCode, name: langInfo.name, direction: langInfo.direction },
-    filename,
-    content,
-    characterCount: content.length,
-    lineCount: content.split("\n").length,
-  });
-};
-
-// POST /api/readme/generate/bulk
-// Body: { languages: ["en","es","fr"], name, description, ... }
-// Generates README in multiple selected languages at once.
-export const generateReadmeBulk = (req, res) => {
-  const {
-    languages,
-    name,
-    description,
-    features,
-    techStack,
-    repoUrl = "",
-    license = "MIT",
-  } = req.body;
-
-  if (!name?.trim()) {
-    return res.status(400).json({ success: false, error: 'Missing required field: "name"' });
-  }
-  if (!description?.trim()) {
-    return res.status(400).json({ success: false, error: 'Missing required field: "description"' });
-  }
-  if (!Array.isArray(languages) || languages.length === 0) {
-    return res.status(400).json({
-      success: false,
-      error: '"languages" must be a non-empty array of language codes',
-      example: { languages: ["en", "es", "fr"] },
-      supportedCodes: Object.keys(LANGUAGES),
+  // GET /
+  if (method === "GET" && pathname === "/") {
+    return sendJSON(res, 200, {
+      name: "README Generator API",
+      version: "2.0.0",
+      description: "Generate professional README.md files in 15 languages",
+      supportedLanguages: Object.keys(LANGUAGES).length,
+      endpoints: [
+        { method: "GET",    path: "/",                    description: "API documentation (this page)" },
+        { method: "GET",    path: "/health",              description: "Health check" },
+        { method: "GET",    path: "/languages",           description: "List all 15 supported language codes" },
+        { method: "POST",   path: "/generate",            description: "Generate README in ONE selected language" },
+        { method: "POST",   path: "/generate/bulk",       description: "Generate README in MULTIPLE selected languages" },
+        { method: "POST",   path: "/generate/all",        description: "Generate README in ALL 15 languages at once" },
+        { method: "GET",    path: "/saved",               description: "List all saved README files" },
+        { method: "GET",    path: "/saved/:filename",     description: "Get content of a saved README" },
+        { method: "DELETE", path: "/saved/:filename",     description: "Delete a saved README" },
+      ],
+      requestFields: {
+        required: ["name (project name)", "description"],
+        optional: ["language (default: en)", "languages (array — for /generate/bulk)", "features (array or CSV)", "techStack (array or CSV)", "repoUrl", "license (default: MIT)", "save (bool, persists .md to disk)"],
+      },
     });
   }
 
-  const params = {
-    name: name.trim(),
-    description: description.trim(),
-    features,
-    techStack,
-    repoUrl,
-    license,
-  };
+  // GET /health
+  if (method === "GET" && pathname === "/health") {
+    return sendJSON(res, 200, { status: "ok", uptime: Math.round(process.uptime()) + "s", timestamp: new Date().toISOString() });
+  }
 
-  const results = [];
-  const errors = [];
+  // GET /languages
+  if (method === "GET" && pathname === "/languages") {
+    return sendJSON(res, 200, {
+      count: Object.keys(LANGUAGES).length,
+      languages: Object.entries(LANGUAGES).map(([code, l]) => ({ code, name: l.name, direction: l.direction })),
+    });
+  }
 
-  for (const lang of languages) {
-    const langCode = lang.toLowerCase().trim();
-    if (!LANGUAGES[langCode]) {
-      errors.push({ language: lang, error: `Unsupported code: "${lang}"` });
-      continue;
+  // POST /generate
+  if (method === "POST" && pathname === "/generate") {
+    let body;
+    try { body = await parseBody(req); } catch (e) { return sendJSON(res, 400, { error: e.message }); }
+    const { language = "en", name, description, features, techStack, repoUrl = "", license = "MIT", save = false } = body;
+    if (!name?.trim()) return sendJSON(res, 400, { error: 'Missing required field: "name"' });
+    if (!description?.trim()) return sendJSON(res, 400, { error: 'Missing required field: "description"' });
+    const langCode = language.toLowerCase();
+    if (!LANGUAGES[langCode]) return sendJSON(res, 400, { error: `Unsupported language: "${language}"`, supportedCodes: Object.keys(LANGUAGES) });
+    const content = buildReadme(langCode, { name: name.trim(), description: description.trim(), features, techStack, repoUrl, license });
+    const filename = langCode === "en" ? "README.md" : `README.${langCode}.md`;
+    const result = { success: true, language: { code: langCode, name: LANGUAGES[langCode].name, direction: LANGUAGES[langCode].direction }, filename, content };
+    if (save) result.savedTo = saveFile(filename, content);
+    return sendJSON(res, 201, result);
+  }
+
+  // POST /generate/bulk
+  if (method === "POST" && pathname === "/generate/bulk") {
+    let body;
+    try { body = await parseBody(req); } catch (e) { return sendJSON(res, 400, { error: e.message }); }
+    const { languages = ["en"], name, description, features, techStack, repoUrl = "", license = "MIT", save = false } = body;
+    if (!name?.trim()) return sendJSON(res, 400, { error: 'Missing required field: "name"' });
+    if (!description?.trim()) return sendJSON(res, 400, { error: 'Missing required field: "description"' });
+    if (!Array.isArray(languages) || languages.length === 0) return sendJSON(res, 400, { error: '"languages" must be a non-empty array' });
+    const params = { name: name.trim(), description: description.trim(), features, techStack, repoUrl, license };
+    const results = [], errors = [];
+    for (const lang of languages) {
+      const langCode = lang.toLowerCase();
+      if (!LANGUAGES[langCode]) { errors.push({ language: lang, error: `Unsupported: "${lang}"` }); continue; }
+      const content = buildReadme(langCode, params);
+      const filename = langCode === "en" ? "README.md" : `README.${langCode}.md`;
+      const entry = { language: { code: langCode, name: LANGUAGES[langCode].name, direction: LANGUAGES[langCode].direction }, filename, content };
+      if (save) entry.savedTo = saveFile(filename, content);
+      results.push(entry);
     }
-    const content = buildReadme(langCode, params);
-    const filename = langFilename(langCode);
-    results.push({
-      language: { code: langCode, name: LANGUAGES[langCode].name, direction: LANGUAGES[langCode].direction },
-      filename,
-      content,
-      characterCount: content.length,
-      lineCount: content.split("\n").length,
+    return sendJSON(res, 201, { success: true, generated: results.length, failed: errors.length, results, ...(errors.length && { errors }) });
+  }
+
+  // POST /generate/all
+  if (method === "POST" && pathname === "/generate/all") {
+    let body;
+    try { body = await parseBody(req); } catch (e) { return sendJSON(res, 400, { error: e.message }); }
+    const { name, description, features, techStack, repoUrl = "", license = "MIT", save = false } = body;
+    if (!name?.trim()) return sendJSON(res, 400, { error: 'Missing required field: "name"' });
+    if (!description?.trim()) return sendJSON(res, 400, { error: 'Missing required field: "description"' });
+    const params = { name: name.trim(), description: description.trim(), features, techStack, repoUrl, license };
+    const readmes = Object.keys(LANGUAGES).map((langCode) => {
+      const content = buildReadme(langCode, params);
+      const filename = langCode === "en" ? "README.md" : `README.${langCode}.md`;
+      const entry = { language: { code: langCode, name: LANGUAGES[langCode].name, direction: LANGUAGES[langCode].direction }, filename, content };
+      if (save) entry.savedTo = saveFile(filename, content);
+      return entry;
     });
+    return sendJSON(res, 201, { success: true, count: readmes.length, readmes });
   }
 
-  return res.status(201).json({
-    success: true,
-    requested: languages.length,
-    generated: results.length,
-    failed: errors.length,
-    results,
-    ...(errors.length && { errors }),
-  });
-};
-
-// POST /api/readme/generate/all
-// Body: { name, description, features?, techStack?, repoUrl?, license? }
-// Generates README in ALL 15 supported languages.
-export const generateReadmeAll = (req, res) => {
-  const {
-    name,
-    description,
-    features,
-    techStack,
-    repoUrl = "",
-    license = "MIT",
-  } = req.body;
-
-  if (!name?.trim()) {
-    return res.status(400).json({ success: false, error: 'Missing required field: "name"' });
-  }
-  if (!description?.trim()) {
-    return res.status(400).json({ success: false, error: 'Missing required field: "description"' });
+  // GET /saved
+  if (method === "GET" && pathname === "/saved") {
+    try {
+      if (!fs.existsSync(SAVE_DIR)) return sendJSON(res, 200, { success: true, count: 0, files: [] });
+      const files = fs.readdirSync(SAVE_DIR).filter((f) => f.endsWith(".md")).map((filename) => {
+        const stats = fs.statSync(path.join(SAVE_DIR, filename));
+        return { filename, sizeBytes: stats.size, modifiedAt: stats.mtime };
+      });
+      return sendJSON(res, 200, { success: true, count: files.length, files });
+    } catch (e) { return sendJSON(res, 500, { error: e.message }); }
   }
 
-  const params = {
-    name: name.trim(),
-    description: description.trim(),
-    features,
-    techStack,
-    repoUrl,
-    license,
-  };
-
-  const readmes = Object.keys(LANGUAGES).map((langCode) => {
-    const content = buildReadme(langCode, params);
-    const filename = langFilename(langCode);
-    return {
-      language: { code: langCode, name: LANGUAGES[langCode].name, direction: LANGUAGES[langCode].direction },
-      filename,
-      content,
-      characterCount: content.length,
-      lineCount: content.split("\n").length,
-    };
-  });
-
-  return res.status(201).json({
-    success: true,
-    count: readmes.length,
-    readmes,
-  });
-};
-
-// GET /api/readme/generate/:language  (convenience download)
-// Returns raw Markdown download for the given language using query params OR
-// defaults for a generic project when no query params are provided.
-export const generateReadmeRaw = (req, res) => {
-  const langCode = req.params.language.toLowerCase().trim();
-  if (!LANGUAGES[langCode]) {
-    return res.status(404).json({
-      success: false,
-      error: `Language code "${langCode}" is not supported.`,
-      supportedCodes: Object.keys(LANGUAGES),
-    });
+  // GET /saved/:filename  &  DELETE /saved/:filename
+  const savedMatch = pathname.match(/^\/saved\/([^/]+\.md)$/);
+  if (savedMatch) {
+    const filename = savedMatch[1];
+    const filePath = path.join(SAVE_DIR, filename);
+    if (method === "GET") {
+      if (!fs.existsSync(filePath)) return sendJSON(res, 404, { error: `File "${filename}" not found` });
+      return sendJSON(res, 200, { success: true, filename, content: fs.readFileSync(filePath, "utf-8") });
+    }
+    if (method === "DELETE") {
+      if (!fs.existsSync(filePath)) return sendJSON(res, 404, { error: `File "${filename}" not found` });
+      fs.unlinkSync(filePath);
+      return sendJSON(res, 200, { success: true, message: `"${filename}" deleted successfully` });
+    }
   }
 
-  const name = req.query.name || "My Project";
-  const description = req.query.description || LANGUAGES[langCode].s.defaultDesc;
-  const features = req.query.features ? req.query.features.split(",") : null;
-  const techStack = req.query.techStack ? req.query.techStack.split(",") : null;
-  const repoUrl = req.query.repoUrl || "";
-  const license = req.query.license || "MIT";
+  return sendJSON(res, 404, { error: "Endpoint not found", hint: "Visit GET / for API documentation" });
+});
 
-  const content = buildReadme(langCode, { name, description, features, techStack, repoUrl, license });
-  const filename = langFilename(langCode);
-
-  return res
-    .setHeader("Content-Type", "text/markdown; charset=utf-8")
-    .setHeader("Content-Disposition", `attachment; filename="${filename}"`)
-    .send(content);
-};
+const PORT = process.env.PORT || 3456;
+server.listen(PORT, () => {
+  console.log(`README Generator API v2.0 running on http://localhost:${PORT}`);
+});
