@@ -31,12 +31,15 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 5000;
 
+// Start the server immediately; DB connection failure only disables product routes
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 connectDB()
   .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
+    console.log("Database connected successfully.");
   })
   .catch((err) => {
-    console.error("Failed to connect DB:", err);
+    console.error("DB connection failed (README API still available):", err.message);
   });
