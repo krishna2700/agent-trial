@@ -1,6 +1,9 @@
-import { Box, Container, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, Heading, Text, VStack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
+
   return (
     <Container maxW="container.xl" py={12}>
       <VStack spacing={6} align="start">
@@ -15,6 +18,9 @@ const DashboardPage = () => {
             Welcome to your dashboard!
           </Text>
         </Box>
+        <Button colorScheme="teal" onClick={() => navigate("/")}>
+          Go to Home
+        </Button>
       </VStack>
     </Container>
   );
